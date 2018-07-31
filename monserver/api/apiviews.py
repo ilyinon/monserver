@@ -39,10 +39,18 @@ class CreateStatus(generics.ListCreateAPIView):
     serializer_class = StatusSerializer
 
     def post(self, request):
-
-        if serializer.is_valid():
-            status_obj = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        s = Status()
+        s.server = request.data.get("server")
+#        s.service = request.data.get("service")
+        if request.data.get("status"):
+            s.status = True
         else:
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+            s.status = False
+        #s.status = request.data.get("status")
+        s_status = s.save()
+
+        if s_status:
+            return Response(request.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
