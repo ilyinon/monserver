@@ -26,8 +26,8 @@ class Status(models.Model):
     def __str__(self):
         return self.created, self.status
 
-    class Meta:
-        unique_together = ("server", "service")
+#    class Meta:
+#        unique_together = ("server", "service")
 
     def last_status(self):
         """Get last status for whole server and services"""

@@ -3,8 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Server, Service, Status
-from monserver.api.serializers import UserSerializer, GroupSerializer, ServerSerializer, ServiceSerializer, StatusSerializer
-
+from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 
 
 class ServerViewSet(viewsets.ModelViewSet):
@@ -23,7 +22,3 @@ class StatusRudView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Status.objects.all()
-
-class SentStatus(APIView):
-    def post(self, request, pk, choice_pk):
-        status_by = request.data.get("status_by")
