@@ -40,17 +40,17 @@ class CreateStatus(generics.ListCreateAPIView):
 
     def post(self, request):
         s = Status()
-        s.server = request.data.get("server")
-#        s.service = request.data.get("service")
+        server_id = request.data.get("server")
+        s.server = Server.objects.get(pk=server_id)
+        service_id = request.data.get("service")
+        s.service = Service.objects.get(pk=service_id)
         if request.data.get("status"):
             s.status = True
         else:
             s.status = False
-        #s.status = request.data.get("status")
-        s_status = s.save()
-
-        if s_status:
-            return Response(request.data, status=status.HTTP_201_CREATED)
-        else:
+        try:
+            s.save()
+        except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        return Response(request.data, status=status.HTTP_201_CREATED)
