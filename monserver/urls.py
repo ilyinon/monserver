@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from django.urls import path
+from django.contrib import admin
 from rest_framework import routers
 from .api import views
 from .api import apiviews
@@ -13,6 +14,7 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
+    path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('servers/', apiviews.ServerList.as_view(), name="servers_list"),
     path('servers/<int:pk>/', apiviews.ServerDetail.as_view(), name="servers_detail"),
