@@ -1,0 +1,11 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: 'monuser'
+      POSTGRES_PASSWORD: 'monpasswd'
+      POSTGRES_DB: 'monserver'
+    restart: always
+    ports:
+        - 5432:5432

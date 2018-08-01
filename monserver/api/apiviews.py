@@ -33,7 +33,9 @@ class ServiceDetail(generics.RetrieveDestroyAPIView):
 
 class CreateStatus(generics.ListCreateAPIView):
     def get_queryset(self):
-        queryset = Status.objects.all()
+        q = Status.objects.order_by("server").distinct("server", "service")
+
+        queryset = q
         return queryset
 
     serializer_class = StatusSerializer
