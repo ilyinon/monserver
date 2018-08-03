@@ -1,30 +1,48 @@
 from django.db import models
 
 
+class DC(models.Model):
+    dc_name = models.CharField(max_length=50, blank=False, unique=True, default="")
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.dc_name, self.created
+
+
 class Server(models.Model):
     server_name = models.CharField(max_length=100, blank=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    dc = models.ForeignKey(DC, related_name='dc', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.server_name
 
 
 class Service(models.Model):
-    service_name = models.CharField(max_length=50, unique=True)
-    version = models.CharField(max_length=50)
+    service_name = models.CharField(max_length=50, blank=False, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.service_name
 
 
+class Version(models.Model):
+    version_name = models.CharField(max_length=100, blank=False, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.version_name, self.created
+
+
 class Status(models.Model):
     server = models.ForeignKey(Server, related_name='server',  on_delete=models.CASCADE)
     service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
+    version = models.ForeignKey(Version, related_name='version', on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.created, self.status
+        return self.created, self.status, self.server, self.service
 
 #    class Meta:
 #        unique_together = ("server", "service")
