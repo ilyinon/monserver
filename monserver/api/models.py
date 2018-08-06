@@ -6,13 +6,13 @@ class DC(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.dc_name, self.created
+        return self.dc_name, self.pk
 
 
 class Server(models.Model):
     server_name = models.CharField(max_length=100, blank=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
-    dc = models.ForeignKey(DC, related_name='dc', on_delete=models.CASCADE)
+    dc = models.ForeignKey(DC, related_name='dc', on_delete=models.CASCADE, default=2)
 
     def __str__(self):
         return self.server_name
@@ -26,18 +26,10 @@ class Service(models.Model):
         return self.service_name
 
 
-class Version(models.Model):
-    version_name = models.CharField(max_length=100, blank=False, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.version_name, self.created
-
-
 class Status(models.Model):
     server = models.ForeignKey(Server, related_name='server',  on_delete=models.CASCADE)
     service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
-    version = models.ForeignKey(Version, related_name='version', on_delete=models.CASCADE)
+    version = models.CharField(max_length=100, blank=False)
     status = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 

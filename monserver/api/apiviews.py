@@ -5,7 +5,9 @@ from django.shortcuts import get_object_or_404
 
 from .models import Server, Service, Status
 from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
+import logging
 
+logger = logging.getLogger(__name__)
 
 class ServerList(generics.ListCreateAPIView):
     queryset = Server.objects.all()
@@ -33,7 +35,8 @@ class ServiceDetail(generics.RetrieveDestroyAPIView):
 
 class CreateStatus(generics.ListCreateAPIView):
     def get_queryset(self):
-        q = Status.objects.order_by("server").distinct("server", "service")
+        q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
+        #q = Status.objects.all().order_by("created").distinct("server", "service")
 
         queryset = q
         return queryset
@@ -46,6 +49,8 @@ class CreateStatus(generics.ListCreateAPIView):
         s.server = Server.objects.get(pk=server_id)
         service_id = request.data.get("service")
         s.service = Service.objects.get(pk=service_id)
+        s.version = request.data.get("version")
+        logger.info(s)
         if request.data.get("status"):
             s.status = True
         else:

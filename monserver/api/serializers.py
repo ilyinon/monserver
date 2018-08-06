@@ -31,4 +31,5 @@ class StatusSerializer(serializers.ModelSerializer):
 
         fields = ['server',
                   'service',
+                  'version',
                   'status']
