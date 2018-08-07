@@ -21,4 +21,5 @@ urlpatterns = [
     path('services/', apiviews.ServiceList.as_view(), name="service_list"),
     path('services/<int:pk>/', apiviews.ServiceDetail.as_view(), name="service_detail"),
     path("status/", apiviews.CreateStatus.as_view(), name="send_status"),
+    path("status/<str:server>/<str:service>/", apiviews.GetServiceStatus.as_view(), name="get_status")
 ]

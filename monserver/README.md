@@ -1,0 +1,1 @@
+curl -X POST  -H "Content-Type: application/json" --data '{"status":"True","version":"111"}' http://127.0.0.1:8000/status/server1/apife/

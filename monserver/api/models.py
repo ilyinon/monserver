@@ -6,7 +6,8 @@ class DC(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.dc_name, self.pk
+        template = '{} {}'.format(self.dc_name, self.pk)
+        return template
 
 
 class Server(models.Model):
@@ -29,17 +30,11 @@ class Service(models.Model):
 class Status(models.Model):
     server = models.ForeignKey(Server, related_name='server',  on_delete=models.CASCADE)
     service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
-    version = models.CharField(max_length=100, blank=False)
+    version = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.created, self.status, self.server, self.service
+        template = '{} {} {}'.format(self.created, self.status, self.server, self.service)
+        return template
 
-#    class Meta:
-#        unique_together = ("server", "service")
-
-    def last_status(self):
-        """Get last status for whole server and services"""
-        queryset = Status.objects.all()
-        return queryset

@@ -61,3 +61,34 @@ class CreateStatus(generics.ListCreateAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(request.data, status=status.HTTP_201_CREATED)
+
+
+class GetServiceStatus(generics.ListCreateAPIView):
+    def get_queryset(self):
+        server_id = Server.objects.filter(server_name=self.kwargs["server"]).values_list("pk")
+        service_id = Service.objects.filter(service_name=self.kwargs["service"]).values_list("pk")
+        q = Status.objects.filter(server_id=server_id[0], service_id=service_id[0]).order_by("-created")[:1]
+        return q
+
+    serializer_class = StatusSerializer
+
+    def post(self, request, server, service):
+        s = Status()
+        s.server = Server.objects.get(server_name=server)
+
+        s.service = Service.objects.get(service_name=service)
+        #s.status = request.data.get("status")
+        s.version = request.data.get("version")
+        if request.data.get("status"):
+            s.status = True
+            logger.error(s.status)
+
+        else:
+            s.status = False
+        #try:
+        #    s.save()
+        #
+        #except:
+        #    return Response(status=status.HTTP_400_BAD_REQUEST)
+        s.save()
+        return Response(request.data, status=status.HTTP_201_CREATED)
