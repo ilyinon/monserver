@@ -79,16 +79,17 @@ class GetServiceStatus(generics.ListCreateAPIView):
         s.service = Service.objects.get(service_name=service)
         #s.status = request.data.get("status")
         s.version = request.data.get("version")
-        if request.data.get("status"):
+
+        if request.data.get("status") == 1:
             s.status = True
             logger.error(s.status)
 
         else:
             s.status = False
-        #try:
-        #    s.save()
-        #
-        #except:
-        #    return Response(status=status.HTTP_400_BAD_REQUEST)
-        s.save()
+        try:
+            s.save()
+
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        #s.save()
         return Response(request.data, status=status.HTTP_201_CREATED)
