@@ -37,4 +37,3 @@ class Status(models.Model):
     def __str__(self):
         template = '{} {} {}'.format(self.created, self.status, self.server, self.service)
         return template
-

@@ -62,4 +62,3 @@ class Overview(View):
     def get(self, request):
         template_name = 'overall.html'
         return render(request, template_name, context={'all_status': self.dc_list})
-
