@@ -1,16 +1,12 @@
 {% block content %}
-    <h1>DC {{   }}</h1>
-    {% if all_status %}
+    <h1>DC {{  dc_name  }}</h1>
+    {% if dc_servers %}
     <ul>
-        {% for a, s in all_status.items %}
-        DC is <a href="/{{ a }}"> {{ a }}</a>, <br>
-
-          Servers list: {{ s }}<br>
+        {% for server in dc_servers %}
+           <a href="/server/{{ server }}"> {{ server }}</a><br>
         {% endfor %}
-
-
     </ul>
     {% else %}
-      <p>There are no Datacenters in the inventory.</p>
+      <p>There are no servers in the DC.</p>
     {% endif %}
 {% endblock %}

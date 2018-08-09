@@ -33,7 +33,6 @@ class StatusRudView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class Overview(View):
-    greeting = "Hi here"
     q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
     dcs = DC.objects.all()
     servers = Server.objects.all()
@@ -62,3 +61,12 @@ class Overview(View):
     def get(self, request):
         template_name = 'overall.html'
         return render(request, template_name, context={'all_status': self.dc_list})
+
+
+class DC_view(View):
+
+    def get(self, request, dc_name):
+        dc_name = DC.objects.filter(dc_name=dc_name)[0]
+        dc_servers = Server.objects.filter(dc=dc_name)
+        template_name = "dc.html"
+        return render(request, template_name, context={'dc_name': dc_name, 'dc_servers': dc_servers})

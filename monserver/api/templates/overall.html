@@ -3,7 +3,7 @@
     {% if all_status %}
     <ul>
         {% for a, s in all_status.items %}
-        DC is <a href="/{{ a }}"> {{ a }}</a>, <br>
+        DC is <a href="dc/{{ a }}"> {{ a }}</a>, <br>
 
           Servers list: {{ s }}<br>
         {% endfor %}
