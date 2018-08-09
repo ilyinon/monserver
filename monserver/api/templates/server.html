@@ -1,0 +1,13 @@
+{% block content %}
+    <h1>Server {{  server_name  }}</h1>
+
+    {% if services %}
+    <ul>
+        {% for service in services %}
+           <a href="/services/{{ service }}"> {{ service }}</a><br>
+        {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no servers in the DC.</p>
+    {% endif %}
+{% endblock %}

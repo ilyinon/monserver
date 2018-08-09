@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
 from rest_framework import routers
-from .api.views import Overview, DC_view
+from .api.views import Overview, DC_view, Server_view, Service_view
 from .api import apiviews
 
 router = routers.DefaultRouter()
@@ -23,5 +23,7 @@ urlpatterns = [
     path('services/<int:pk>/', apiviews.ServiceDetail.as_view(), name="service_detail"),
     path("status/", apiviews.CreateStatus.as_view(), name="send_status"),
     path("status/<str:server>/<str:service>/", apiviews.GetServiceStatus.as_view(), name="get_status"),
+    path("servers/<str:server_name>/", Server_view.as_view()),
     path("dc/<str:dc_name>/", DC_view.as_view()),
+    path("services/<str:service_name>/", Service_view.as_view()),
 ]

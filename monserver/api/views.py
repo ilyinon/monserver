@@ -9,8 +9,15 @@ from django.shortcuts import render
 from .models import Server, Service, Status
 from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 
-
 import logging
+
+from django.template.defaulttags import register
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,3 +77,18 @@ class DC_view(View):
         dc_servers = Server.objects.filter(dc=dc_name)
         template_name = "dc.html"
         return render(request, template_name, context={'dc_name': dc_name, 'dc_servers': dc_servers})
+
+class Server_view(View):
+
+    def get(self, request, server_name):
+        server_name = Server.objects.filter(server_name=server_name)[0]
+        server_services = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service").\
+            filter(server=server_name).values_list("service__service_name", flat=True)
+        template_name = "server.html"
+        return render(request, template_name, context={'server_name': server_name, 'services': server_services})
+
+class Service_view(View):
+    def get(self, request, service_name):
+        service = Service.objects.filter(service_name=service_name)
+        template_name = "service.html"
+        return render(request, template_name, context={"service": service})

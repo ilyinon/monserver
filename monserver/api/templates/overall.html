@@ -3,9 +3,17 @@
     {% if all_status %}
     <ul>
         {% for a, s in all_status.items %}
-        DC is <a href="dc/{{ a }}"> {{ a }}</a>, <br>
+        DC is <a href="dc/{{ a }}"> {{ a }}</a> <br>
 
-          Servers list: {{ s }}<br>
+        {% for key, value in s.items %}
+        {% if key == "status" and value == True %}
+        DC is OK
+
+        {% endif %}
+        {{ key }}: {{ value }}<br>
+
+        {% endfor %}
+<br><br>
         {% endfor %}
 
 
