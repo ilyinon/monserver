@@ -13,6 +13,6 @@ done
 
 echo 'ok'
 sleep 5
-/mon/mon/manage.py migrate --noinput
-/mon/mon/manage.py collectstatic --noinput
-uwsgi --ini /mse/uwsgi.ini
+/mon/monserver/manage.py migrate --noinput
+/mon/monserver/manage.py collectstatic --noinput
+uwsgi --ini /mon/uwsgi.ini

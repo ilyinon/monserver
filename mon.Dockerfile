@@ -7,10 +7,11 @@ WORKDIR /mon/
 RUN apk add --update  postgresql-dev git \
     libevent-dev libffi-dev openssl yaml linux-headers build-base python3 jpeg-dev zlib-dev && \
     pip3 install uwsgi
+ADD ./requirements.txt /
 
+RUN pip3 install -r /requirements.txt
 ADD . /mon/
-COPY /mon/docker_settings.py /mon/monserver/settings.py
 
-RUN pip3 install -r /mon/requirements.txt
+COPY ./docker_settings.py /mon/mon/monserver/settings.py
 
 CMD sh /mon/entrypoint.sh
