@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   db:
     image: postgres:9.6
@@ -9,3 +9,23 @@ services:
     restart: always
     ports:
         - 5432:5432
+
+
+  mon:
+    build:
+      context: ./
+      dockerfile: ./mon.Dockerfile
+    image: django_image
+    restart: always
+    depends_on:
+      - db
+
+  nginx:
+    build:
+        context: ./
+        dockerfile: nginx.Dockerfile
+    ports:
+      - 80:80
+    restart: always
+    depends_on:
+      - mon

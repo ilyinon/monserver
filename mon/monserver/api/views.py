@@ -40,34 +40,36 @@ class StatusRudView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class Overview(View):
-    q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
-    dcs = DC.objects.all()
-    servers = Server.objects.all()
-    dc_list = {}
-    for dc in dcs:
-        dc_list[dc.dc_name] = {}
-        counter_server = 0
-        counter_bad_server = 0
-        for server in servers:
-            if server.dc == dc:
-                counter_server += 1
-                logger.error(server.server_name)
-                for status in q:
-                    logger.error(status.server)
-                    if server == status.server and status.status is False:
-                        logger.error(server.server_name)
-                        counter_bad_server += 1
 
-        dc_list[dc.dc_name]["servers_all"] = counter_server
-        dc_list[dc.dc_name]["servers_bad"] = counter_bad_server
-        if counter_bad_server:
-            dc_list[dc.dc_name]["status"] = False
-        else:
-            dc_list[dc.dc_name]["status"] = True
 
     def get(self, request):
+        q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
+        dcs = DC.objects.all()
+        servers = Server.objects.all()
+        dc_list = {}
+
+        for dc in dcs:
+            dc_list[dc.dc_name] = {}
+            counter_server = 0
+            counter_bad_server = 0
+            for server in servers:
+                if server.dc == dc:
+                    counter_server += 1
+                    logger.error(server.server_name)
+                    for status in q:
+                        logger.error(status.server)
+                        if server == status.server and status.status is False:
+                            logger.error(server.server_name)
+                            counter_bad_server += 1
+
+            dc_list[dc.dc_name]["servers_all"] = counter_server
+            dc_list[dc.dc_name]["servers_bad"] = counter_bad_server
+            if counter_bad_server:
+                dc_list[dc.dc_name]["status"] = False
+            else:
+                dc_list[dc.dc_name]["status"] = True
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': self.dc_list})
+        return render(request, template_name, context={'all_status': dc_list})
 
 
 class DC_view(View):

@@ -43,25 +43,6 @@ class CreateStatus(generics.ListCreateAPIView):
 
     serializer_class = StatusSerializer
 
-    def post(self, request):
-        s = Status()
-        server_id = request.data.get("server")
-        s.server = Server.objects.get(pk=server_id)
-        service_id = request.data.get("service")
-        s.service = Service.objects.get(pk=service_id)
-        s.version = request.data.get("version")
-        logger.info(s)
-        if request.data.get("status"):
-            s.status = True
-        else:
-            s.status = False
-        try:
-            s.save()
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(request.data, status=status.HTTP_201_CREATED)
-
 
 class GetServiceStatus(generics.ListCreateAPIView):
     def get_queryset(self):
