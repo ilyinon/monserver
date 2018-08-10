@@ -2,8 +2,8 @@ from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
 from rest_framework import routers
-from .api.views import Overview, DC_view, Server_view, Service_view
-from .api import apiviews
+from api.views import Overview, DC_view, Server_view, Service_view
+from api import apiviews
 
 router = routers.DefaultRouter()
 #router.register(r'servers', views.ServerViewSet)
