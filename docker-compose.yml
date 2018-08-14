@@ -10,13 +10,14 @@ services:
     ports:
         - 5432:5432
 
-
   mon:
     build:
       context: ./
       dockerfile: ./mon.Dockerfile
     image: django_image
     restart: always
+    volumes:
+      - django_static:/mon/mon/static
     depends_on:
       - db
 
@@ -27,5 +28,10 @@ services:
     ports:
       - 80:80
     restart: always
+    volumes:
+      - django_static:/code/static
     depends_on:
       - mon
+
+volumes:
+  django_static:

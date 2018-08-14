@@ -7,12 +7,12 @@ server {
 
     location ~* ^.+\.(txt|ico)$ {
         expires 8d;
-        root /mon/static/;
+        root /code/static/;
     }
 
     location /static {
         expires 8d;
-        alias /mon/static;
+        alias /code/static;
     }
 
     location /media {
