@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 
 
@@ -53,7 +54,7 @@ class Status(models.Model):
     service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
     version = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
