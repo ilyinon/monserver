@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'monserver.wsgi.application'
+WSGI_APPLICATION = 'monserver.wsgi'
 
 
 
