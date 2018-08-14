@@ -45,7 +45,6 @@ class CreateStatus(generics.ListCreateAPIView):
 
     def post(self, request):
         s = Status()
-        Server.create(request.data.get("server"))
         try:
             s.server = Server.objects.get(server_name=request.data.get("server"))
         except Server.DoesNotExist:

@@ -44,6 +44,7 @@ class Service(models.Model):
     @classmethod
     def create(cls, new_name):
         new_service = cls(service_name=new_name)
+        new_service.save()
         return new_service
 
 

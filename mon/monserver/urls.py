@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
 from rest_framework import routers
-from api.views import Overview, DC_view, Server_view, Service_view
+from api.views import Overview, DC_view, Server_view, Service_view, LAB_view
 from api import apiviews
 
 router = routers.DefaultRouter()
@@ -26,4 +26,5 @@ urlpatterns = [
     path("servers/<str:server_name>/", Server_view.as_view()),
     path("dc/<str:dc_name>/", DC_view.as_view()),
     path("services/<str:service_name>/", Service_view.as_view()),
+    path("lab/<str:lab_name>", LAB_view.as_view()),
 ]
