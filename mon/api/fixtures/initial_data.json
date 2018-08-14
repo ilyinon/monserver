@@ -1,0 +1,90 @@
+[
+  {
+    "model": "api.Lab",
+    "pk": 99,
+    "fields": {
+      "lab_name": "UNKNOWN",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 1,
+    "fields": {
+      "lab_name": "QAUSLAB01",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 2,
+    "fields": {
+      "lab_name": "QAUSLAB02",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 3,
+    "fields": {
+      "lab_name": "TAGUSLAB03",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 4,
+    "fields": {
+      "lab_name": "TAGUSLAB04",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 99,
+    "fields": {
+      "dc_name": "UNKNOWN",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 1,
+    "fields": {
+      "dc_name": "SCL",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 2,
+    "fields": {
+      "dc_name": "ATL",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 3,
+    "fields": {
+      "dc_name": "LDN",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 4,
+    "fields": {
+      "dc_name": "TOKYO",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 5,
+    "fields": {
+      "dc_name": "SYDNEY",
+      "created": "2001-10-10"
+    }
+  }
+]
