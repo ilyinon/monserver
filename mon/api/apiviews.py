@@ -9,11 +9,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class ServerList(generics.ListCreateAPIView):
     queryset = Server.objects.all()
     serializer_class = ServerSerializer
 
-#(generics.RetrieveDestroyAPIView)
+
 class ServerDetail(generics.RetrieveDestroyAPIView):
     def get_queryset(self):
         queryset = Server.objects.filter(pk=self.kwargs['pk'])
@@ -36,15 +37,13 @@ class ServiceDetail(generics.RetrieveDestroyAPIView):
 class CreateStatus(generics.ListCreateAPIView):
     def get_queryset(self):
         q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
-        #q = Status.objects.all().order_by("created").distinct("server", "service")
-
-        queryset = q
-        return queryset
+        return q
 
     serializer_class = StatusSerializer
 
     def post(self, request):
         s = Status()
+
         try:
             s.server = Server.objects.get(server_name=request.data.get("server"))
         except Server.DoesNotExist:
@@ -59,8 +58,6 @@ class CreateStatus(generics.ListCreateAPIView):
 
         if request.data.get("status") == "True":
             s.status = True
-
-
         else:
             s.status = False
             logger.error("False status")
@@ -80,24 +77,3 @@ class GetServiceStatus(generics.ListCreateAPIView):
         return q
 
     serializer_class = StatusSerializer
-
-    def post(self, request, server, service):
-        s = Status()
-        s.server = Server.objects.get(server_name=server)
-
-        s.service = Service.objects.get(service_name=service)
-        s.version = request.data.get("version")
-
-        if request.data.get("status") == "True":
-            s.status = True
-
-
-        else:
-            s.status = False
-            logger.error("False status")
-        try:
-            s.save()
-
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(request.data, status=status.HTTP_201_CREATED)

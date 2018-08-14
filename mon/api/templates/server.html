@@ -1,12 +1,15 @@
 {% block content %}
     <h1>Server {{  server_name  }}</h1>
-
+<table>
     {% if services %}
     <ul>
         {% for service in services %}
-           <a href="/services/{{ service }}"> {{ service }}</a><br>
+            {% cycle '<tr>' '' '' '' %}
+        <td> <a href="/services/{{ service.0 }}"> {{ service.0 }}</a> version: {{ service.1 }}</td>
+        {% cycle '' '' '' '</tr>' %}
         {% endfor %}
     </ul>
+</table>
     {% else %}
       <p>There are no servers in the DC.</p>
     {% endif %}

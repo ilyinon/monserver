@@ -54,6 +54,7 @@ class Status(models.Model):
     version = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         template = '{} {} {}'.format(self.created, self.status, self.server, self.service)
