@@ -27,6 +27,12 @@ class Server(models.Model):
     def __str__(self):
         return self.server_name
 
+    @classmethod
+    def create(cls, new_name):
+        new_server = cls(server_name=new_name, dc=DC.objects.get(pk=1), lab=Lab.objects.get(pk=1))
+        new_server.save()
+        return new_server
+
 
 class Service(models.Model):
     service_name = models.CharField(max_length=50, blank=False, unique=True)
@@ -34,6 +40,11 @@ class Service(models.Model):
 
     def __str__(self):
         return self.service_name
+
+    @classmethod
+    def create(cls, new_name):
+        new_service = cls(service_name=new_name)
+        return new_service
 
 
 class Status(models.Model):
