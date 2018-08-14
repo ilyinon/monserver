@@ -12,7 +12,7 @@ do
 done
 
 echo 'ok'
-sleep 5
+sleep 3
 /mon/mon/manage.py migrate --noinput
 /mon/mon/manage.py collectstatic --noinput
 uwsgi --ini /mon/uwsgi.ini
