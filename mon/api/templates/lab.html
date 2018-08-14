@@ -1,0 +1,12 @@
+{% block content %}
+    <h1>Lab {{  lab_name  }}</h1>
+    {% if lab_servers %}
+    <ul>
+        {% for server in lab_servers %}
+           <a href="/servers/{{ server }}"> {{ server }}</a><br>
+        {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no servers in the LAB.</p>
+    {% endif %}
+{% endblock %}

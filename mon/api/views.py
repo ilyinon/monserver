@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.generic import ListView, View
 from django.http import HttpResponse
-from .models import Status, DC, Server
+from .models import Status, DC, Server, Lab
 from django.shortcuts import render
 
 from .models import Server, Service, Status
@@ -44,16 +44,16 @@ class Overview(View):
 
     def get(self, request):
         q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
-        dcs = DC.objects.all()
+        labs = Lab.objects.all()
         servers = Server.objects.all()
-        dc_list = {}
+        lab_list = {}
 
-        for dc in dcs:
-            dc_list[dc.dc_name] = {}
+        for lab in labs:
+            lab_list[lab.lab_name] = {}
             counter_server = 0
             counter_bad_server = 0
             for server in servers:
-                if server.dc == dc:
+                if server.lab == lab:
                     counter_server += 1
                     logger.error(server.server_name)
                     for status in q:
@@ -62,14 +62,14 @@ class Overview(View):
                             logger.error(server.server_name)
                             counter_bad_server += 1
 
-            dc_list[dc.dc_name]["servers_all"] = counter_server
-            dc_list[dc.dc_name]["servers_bad"] = counter_bad_server
+            lab_list[lab.lab_name]["servers_all"] = counter_server
+            lab_list[lab.lab_name]["servers_bad"] = counter_bad_server
             if counter_bad_server:
-                dc_list[dc.dc_name]["status"] = False
+                lab_list[lab.lab_name]["status"] = False
             else:
-                dc_list[dc.dc_name]["status"] = True
+                lab_list[lab.lab_name]["status"] = True
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': dc_list})
+        return render(request, template_name, context={'all_status': lab_list})
 
 
 class DC_view(View):
@@ -79,6 +79,16 @@ class DC_view(View):
         dc_servers = Server.objects.filter(dc=dc_name)
         template_name = "dc.html"
         return render(request, template_name, context={'dc_name': dc_name, 'dc_servers': dc_servers})
+
+
+class LAB_view(View):
+
+    def get(self, request, lab_name):
+        lab_name = Lab.objects.filter(lab_name=lab_name)[0]
+        lab_servers = Server.objects.filter(lab=lab_name)
+        template_name = "lab.html"
+        return render(request, template_name, context={'lab_name': lab_name, 'lab_servers': lab_servers})
+
 
 class Server_view(View):
 

@@ -1,9 +1,9 @@
 {% block content %}
-    <h1>DC list</h1>
+    <h1>Environments</h1>
     {% if all_status %}
     <ul>
         {% for a, s in all_status.items %}
-        DC is <a href="dc/{{ a }}"> {{ a }}</a> <br>
+        DC is <a href="lab/{{ a }}"> {{ a }}</a> <br>
 
         {% for key, value in s.items %}
         {% if key == "status" and value == True %}
@@ -19,6 +19,6 @@
 
     </ul>
     {% else %}
-      <p>There are no Datacenters in the inventory.</p>
+      <p>There are no Labs in the inventory.</p>
     {% endif %}
 {% endblock %}

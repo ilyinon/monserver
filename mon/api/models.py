@@ -11,7 +11,7 @@ class DC(models.Model):
 
 
 class Lab(models.Model):
-    lab_name = models.CharField(max_length=100, unique=True)
+    lab_name = models.CharField(max_length=100, unique=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -21,8 +21,8 @@ class Lab(models.Model):
 class Server(models.Model):
     server_name = models.CharField(max_length=100, blank=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
-    dc = models.ForeignKey(DC, related_name='dc', on_delete=models.CASCADE, default=2)
-#    lab = models.ForeignKey(Lab, related_name='lab', on_delete=models.CASCADE)
+    dc = models.ForeignKey(DC, related_name='dc', on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, related_name='lab', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.server_name
