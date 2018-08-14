@@ -3,7 +3,7 @@
     {% if all_status %}
     <ul>
         {% for a, s in all_status.items %}
-        DC is <a href="lab/{{ a }}"> {{ a }}</a> <br>
+        LAB is <a href="lab/{{ a }}"> {{ a }}</a> <br>
 
         {% for key, value in s.items %}
         {% if key == "status" and value == True %}

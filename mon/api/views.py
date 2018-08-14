@@ -44,7 +44,7 @@ class Overview(View):
 
     def get(self, request):
         q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
-        labs = Lab.objects.all()
+        labs = Lab.objects.all().exclude(pk=99)
         servers = Server.objects.all()
         lab_list = {}
 
