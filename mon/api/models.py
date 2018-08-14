@@ -29,7 +29,7 @@ class Server(models.Model):
 
     @classmethod
     def create(cls, new_name):
-        new_server = cls(server_name=new_name, dc=DC.objects.get(pk=1), lab=Lab.objects.get(pk=1))
+        new_server = cls(server_name=new_name, dc=DC.objects.get(pk=99), lab=Lab.objects.get(pk=99))
         new_server.save()
         return new_server
 

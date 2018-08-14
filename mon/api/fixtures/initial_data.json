@@ -1,5 +1,23 @@
 [
   {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$ZZklV724QExq$ygkwQhDrKb9SD2fZvVBZyuBmN54Zrz0SLev0QknuEhs=",
+        "last_login": "2018-08-14T15:00:41.389Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@myhost.localhost",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-08-14T15:00:41.389Z",
+        "groups": [],
+        "user_permissions": []
+    }
+  },
+  {
     "model": "api.Lab",
     "pk": 99,
     "fields": {
