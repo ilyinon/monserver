@@ -1,6 +1,10 @@
 from django.utils import timezone
 from django.db import models
+import re
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 class DC(models.Model):
     dc_name = models.CharField(max_length=50, blank=False, unique=True, default="")
@@ -26,11 +30,19 @@ class Server(models.Model):
     lab = models.ForeignKey(Lab, related_name='lab', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.server_name
+        template = '{}, domain = {}, lab = {}'.format(self.server_name, self.dc, self.lab)
+        return template
 
     @classmethod
     def create(cls, new_name):
-        new_server = cls(server_name=new_name, dc=DC.objects.get(pk=99), lab=Lab.objects.get(pk=99))
+        domain = re.split('\.+', new_name)[1].upper()
+        logger.error(domain)
+        try:
+            dc = DC.objects.get(dc_name=domain)
+        except DC.DoesNotExist:
+            dc = DC.objects.get(pk=99)
+
+        new_server = cls(server_name=new_name, dc=dc, lab=Lab.objects.get(pk=99))
         new_server.save()
         return new_server
 
