@@ -1,14 +1,22 @@
 {% block content %}
     <h1>Server {{  server_name  }}</h1>
-<table>
-    {% if services %}
-    <ul>
+{% if services %}
+<table width="80%" cellpadding="2">
+
+    <tr>
+        <td width="40%" align="left">Service name</td>
+        <td width="40%" align="left">Version</td>
+    </tr>
+
         {% for service in services %}
-            {% cycle '<tr>' '' '' '' %}
-        <td> <a href="/services/{{ service.0 }}"> {{ service.0 }}</a> version: {{ service.1 }}</td>
-        {% cycle '' '' '' '</tr>' %}
+
+    <tr>
+        <td width="40%" align="left">
+            <a href="/services/{{ service.0 }}"> {{ service.0 }}</a>
+        <td>
+        <td width="40%" align="left"> {{ service.1 }}</td>
+    </tr>
         {% endfor %}
-    </ul>
 </table>
     {% else %}
       <p>There are no servers in the DC.</p>
