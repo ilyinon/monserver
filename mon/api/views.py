@@ -82,12 +82,21 @@ class DC_view(View):
 
 
 class LAB_view(View):
-
+    @register.filter
     def get(self, request, lab_name):
         lab_name = Lab.objects.filter(lab_name=lab_name)[0]
         lab_servers = Server.objects.filter(lab=lab_name)
+        lab_servers_all = {}
+        for server in lab_servers:
+            lab_servers_all[server] = 0
+            services = Status.objects.all().order_by("server", "service", "-created").\
+                distinct("server", "service").filter(server=server).values_list("service__service_name", flat=True)
+            lab_servers_all[server] = services
+
         template_name = "lab.html"
-        return render(request, template_name, context={'lab_name': lab_name, 'lab_servers': lab_servers})
+        return render(request, template_name, context={'lab_name': lab_name,
+                                                       'lab_servers': lab_servers_all,
+                                                       'services_all': lab_servers_all})
 
 
 class Server_view(View):
