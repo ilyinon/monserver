@@ -36,13 +36,25 @@ class Server(models.Model):
     @classmethod
     def create(cls, new_name):
         domain = re.split('\.+', new_name)[1].upper()
-        logger.error(domain)
+
         try:
             dc = DC.objects.get(dc_name=domain)
         except DC.DoesNotExist:
             dc = DC.objects.get(pk=99)
 
-        new_server = cls(server_name=new_name, dc=dc, lab=Lab.objects.get(pk=99))
+        logger.error(new_name)
+        if re.search("^qa.+[a-zA-Z](01|03)[0-9].*\.", new_name):
+            lab = Lab.objects.get(lab_name="QAUSLAB01")
+        elif re.search("^qa.+[a-zA-Z](11|13)[0-9].*\.", new_name):
+            lab = Lab.objects.get(lab_name="QAUSLAB02")
+        elif re.search("^qa.+[a-zA-Z](61|63)[0-9].*\.", new_name):
+            lab = Lab.objects.get(lab_name="TAGUSLAB03")
+        elif re.search("^tag.+[a-zA-Z](01|03)[0-9].*\.", new_name):
+            lab = Lab.objects.get(lab_name="TAGUSLAB04")
+        else:
+            lab = Lab.objects.get(pk=99)
+
+        new_server = cls(server_name=new_name, dc=dc, lab=lab)
         new_server.save()
         return new_server
 
