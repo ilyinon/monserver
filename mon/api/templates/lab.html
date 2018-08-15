@@ -6,7 +6,7 @@
         {% for server, services in lab_servers.items %}
         <tr>
             <td width="20%" valign="top">
-           <a href="/servers/{{ server }}"> {{ server }}</a><br>
+           <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a><br>
             </td>
             <td>
                 {% for service in  services %}
