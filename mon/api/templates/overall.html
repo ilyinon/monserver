@@ -1,23 +1,41 @@
 {% block content %}
     <h1>Environments</h1>
     {% if all_status %}
-    <ul>
+    <table width="90%">
+        <tr>
+            <td>Lab_Name</td>
+            <td>Status</td>
+            <td>All_servers</td>
+            <td>Fail_servers</td>
+        </tr>
+
         {% for a, s in all_status.items %}
-        LAB is <a href="lab/{{ a }}"> {{ a }}</a> <br>
+        <tr>
+            <td>
+        <a href="lab/{{ a }}"> {{ a }}</a> <br>
+            </td>
+            {% if s|get_item:"status" == True %}
+            <td bgcolor="green">
+                    OK
+            </td>
+                {% else %}
+            <td bgcolor="red">
+                    BAD
+            </td>
+            {% endif %}
+            <td>
+                {{ s|get_item:"servers_all" }}
+            </td>
 
-        {% for key, value in s.items %}
-        {% if key == "status" and value == True %}
-        DC is OK
+            <td>
+                {{ s|get_item:"servers_bad" }}
+            </td>
 
-        {% endif %}
-        {{ key }}: {{ value }}<br>
-
+            </tr>
         {% endfor %}
-<br><br>
-        {% endfor %}
 
 
-    </ul>
+    </table>
     {% else %}
       <p>There are no Labs in the inventory.</p>
     {% endif %}

@@ -41,6 +41,7 @@ class StatusRudView(generics.RetrieveUpdateDestroyAPIView):
 
 class Overview(View):
 
+    @register.filter
     def get(self, request):
         q = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
         labs = Lab.objects.all().exclude(pk=99)
