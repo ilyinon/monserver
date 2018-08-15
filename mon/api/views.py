@@ -12,6 +12,8 @@ from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 import logging
 
 from django.template.defaulttags import register
+from datetime import datetime, timedelta
+import pytz
 
 
 @register.filter
@@ -48,6 +50,8 @@ class Overview(View):
         servers = Server.objects.all()
         lab_list = {}
 
+        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=3)
+
         for lab in labs:
             lab_list[lab.lab_name] = {}
             counter_server = 0
@@ -58,7 +62,7 @@ class Overview(View):
                     logger.error(server.server_name)
                     for status in q:
                         logger.error(status.server)
-                        if server == status.server and status.status is False:
+                        if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
                             logger.error(server.server_name)
                             counter_bad_server += 1
 
