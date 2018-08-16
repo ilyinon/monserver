@@ -82,5 +82,5 @@ class Status(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        template = '{} {} {}'.format(self.created, self.status, self.server, self.service)
+        template = '{} {} {} {} {}'.format(self.created, self.status, self.server, self.service, self.updated)
         return template

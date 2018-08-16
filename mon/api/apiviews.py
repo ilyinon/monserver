@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from .models import Server, Service, Status
 from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 import logging
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +62,13 @@ class CreateStatus(generics.ListCreateAPIView):
         else:
             s.status = False
             logger.error("False status")
+
+        prev_status = Status.objects.filter(server=s.server, service=s.service).last()
+        if prev_status:
+            if s.status == prev_status.status:
+                s = prev_status
+                s.updated = timezone.now()
+        logger.error(prev_status)
         try:
             s.save()
 
