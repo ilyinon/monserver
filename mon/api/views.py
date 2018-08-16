@@ -94,7 +94,7 @@ class LAB_view(View):
         for server in lab_servers:
             lab_servers_all[server] = 0
             services = Status.objects.all().order_by("server", "service", "-created").\
-                distinct("server", "service").filter(server=server).values_list("service__service_name", flat=True)
+                distinct("server", "service").filter(server=server).values_list("service__service_name", "version")
             lab_servers_all[server] = services
 
         template_name = "lab.html"

@@ -3,18 +3,37 @@
 
     {% if lab_servers %}
     <table width="80%" border="0">
+        <tr>
+            <td>Server_name</td>
+            <td>Service</td>
+            <td>Version</td>
+
+        </tr>
         {% for server, services in lab_servers.items %}
         <tr>
             <td width="20%" valign="top">
-           <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a><br>
+                <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
             </td>
             <td>
+
+            <table width="100%">
+
                 {% for service in  services %}
-                    <a href="/services/{{ service }}"> {{ service}}</a><br>
+                <tr>
+                <td>
+                    <a href="/services/{{ service }}"> {{ service.0 }}</a>
+                </td>
+                <td>
+                    {{ service.1 }}
+                </td>
+                </tr>
                 {% endfor %}
+            </table>
+
             </td>
-         </tr>
+        </tr>
         {% endfor %}
+
     </table>
     {% else %}
       <p>There are no servers in the LAB.</p>
