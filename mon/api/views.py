@@ -50,7 +50,7 @@ class Overview(View):
         servers = Server.objects.all()
         lab_list = {}
 
-        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=3)
+        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=2)
 
         for lab in labs:
             lab_list[lab.lab_name] = {}
@@ -59,11 +59,11 @@ class Overview(View):
             for server in servers:
                 if server.lab == lab:
                     counter_server += 1
-                    logger.error(server.server_name)
+#                   logger.error(server.server_name)
                     for status in q:
-                        logger.error(status.server)
+#                       logger.error(status.server)
                         if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
-                            logger.error(server.server_name)
+#                           logger.error(server.server_name)
                             counter_bad_server += 1
 
             lab_list[lab.lab_name]["servers_all"] = counter_server
