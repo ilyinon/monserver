@@ -1,7 +1,25 @@
-{% block content %}
 
- {% for s in service %}
-   <h1> {{ s.service_name }} </h1>
+
+<table width="80%" cellpadding="2">
+    <tr>
+        <td>status</td>
+        <td>version</td>
+        <td>updated</td>
+    </tr>
+{% for status in status_service %}
+    <tr>
+           {% if status.0 == True %}
+            <td bgcolor="green">
+                    OK
+            </td>
+                {% else %}
+            <td bgcolor="red">
+                    BAD
+            </td>
+            {% endif %}
+        <td>{{ status.1 }}</td>
+        <td>{{ status.2 }}</td>
+    </tr>
 {% endfor %}
 
-{% endblock %}
+</table>

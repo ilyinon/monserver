@@ -117,5 +117,6 @@ class Server_view(View):
 class Service_view(View):
     def get(self, request, service_name):
         service = Service.objects.filter(service_name=service_name)
+        status_service = Status.objects.filter(service=service[0]).values_list("status", "version", "updated")
         template_name = "service.html"
-        return render(request, template_name, context={"service": service})
+        return render(request, template_name, context={"status_service": status_service})

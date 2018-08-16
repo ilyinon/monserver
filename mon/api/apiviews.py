@@ -65,7 +65,7 @@ class CreateStatus(generics.ListCreateAPIView):
 
         prev_status = Status.objects.filter(server=s.server, service=s.service).last()
         if prev_status:
-            if s.status == prev_status.status:
+            if s.status == prev_status.status and s.version == prev_status.version:
                 s = prev_status
                 s.updated = timezone.now()
         logger.error(prev_status)
