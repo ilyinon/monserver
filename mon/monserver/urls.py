@@ -25,6 +25,6 @@ urlpatterns = [
     path("status/<str:server>/<str:service>/", apiviews.GetServiceStatus.as_view(), name="get_status"),
     path("servers/<str:server_name>/", Server_view.as_view()),
     path("dc/<str:dc_name>/", DC_view.as_view()),
-    path("services/<str:service_name>/", Service_view.as_view()),
+    path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
 ]

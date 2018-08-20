@@ -107,16 +107,17 @@ class Server_view(View):
 
     def get(self, request, server_name):
         server_name = Server.objects.filter(server_name=server_name)[0]
-        server_services = Status.objects.all().order_by("server", "service", "version", "-created")\
-            .distinct("server", "service", "version").\
+        server_services = Status.objects.all().order_by("server", "service", "-updated")\
+            .distinct("server", "service").\
             filter(server=server_name).values_list("service__service_name", "version")
         template_name = "server.html"
         return render(request, template_name, context={'server_name': server_name, 'services': server_services})
 
 
 class Service_view(View):
-    def get(self, request, service_name):
+    def get(self, request, server_name, service_name):
         service = Service.objects.filter(service_name=service_name)
-        status_service = Status.objects.filter(service=service[0]).values_list("status", "version", "updated")
+        server = Server.objects.filter(server_name=server_name)
+        status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
         template_name = "service.html"
         return render(request, template_name, context={"status_service": status_service})
