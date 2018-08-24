@@ -1,9 +1,13 @@
 from django.conf.urls import url, include
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
 from rest_framework import routers
-from api.views import Overview, DC_view, Server_view, Service_view, LAB_view
+from api.views import Overview, DC_view, Server_view, Service_view, LAB_view, Version_view
 from api import apiviews
+from django.conf import settings
+
+
+
 
 router = routers.DefaultRouter()
 #router.register(r'servers', views.ServerViewSet)
@@ -27,4 +31,12 @@ urlpatterns = [
     path("dc/<str:dc_name>/", DC_view.as_view()),
     path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
+    path("versions/", Version_view.as_view()),
+
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

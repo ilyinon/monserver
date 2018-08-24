@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class DC(models.Model):
     dc_name = models.CharField(max_length=50, blank=False, unique=True, default="")
     created = models.DateTimeField(auto_now_add=True)

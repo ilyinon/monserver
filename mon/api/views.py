@@ -121,3 +121,30 @@ class Service_view(View):
         status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
         template_name = "service.html"
         return render(request, template_name, context={"status_service": status_service})
+
+
+class Version_view(View):
+    def get(self, request):
+        statuses = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
+        labs = Lab.objects.all().exclude(pk=99)
+        data_list = {}
+        service_list = {}
+        servers = Server.objects.all()
+        for lab in labs:
+            data_list[lab] = {}
+            for server in servers:
+                if server.lab == lab:
+                    data_list[lab][server.server_name] = {}
+        for status in statuses:
+            for lab in data_list:
+                service_list[lab] = {}
+                version_list = []
+                for server in data_list[lab]:
+                    if server == status.server.server_name:
+                        version_list.append(status.version)
+                service_list[lab][status.service.service_name] = version_list
+
+        services = Service.objects.all()
+        template_name = "version.html"
+        return render(request, template_name, context={'data': service_list,
+                                                       'services': services},)

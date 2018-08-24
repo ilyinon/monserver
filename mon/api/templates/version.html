@@ -1,0 +1,22 @@
+<body>
+<table width="80%" cellpadding="2">
+    <tr>
+        <td>LAB</td>
+        {% for service in services %}
+        <td> {{ service.service_name }} </td>
+        {% endfor %}
+    </tr>
+    {% for lab, version in data.items %}
+        <tr>
+            <td>{{ lab }}</td>
+            {% for service in services %}
+
+            <td> {{ version|get_item:service.service_name }} </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+</table>
+
+
+</body>
