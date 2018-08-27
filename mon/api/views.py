@@ -139,7 +139,8 @@ class Version_view(View):
 
                             if s.service.service_name not in data_list[lab]:
                                 data_list[lab][s.service.service_name] = []
-                            data_list[lab][s.service.service_name].append(s.version)
+                            if s.version not in data_list[lab][s.service.service_name]:
+                                data_list[lab][s.service.service_name].append(s.version)
 
         services = Service.objects.all()
         template_name = "version.html"
