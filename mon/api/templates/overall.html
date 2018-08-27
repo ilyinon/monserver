@@ -1,11 +1,5 @@
-<html>
-    <head>
-        <title>Env status overall</title>
-        <meta http-equiv="refresh" content="5">
-    </head>
-    <body>
+{% extends "header.html" %}
 {% block content %}
-    <h1>Environments</h1>
     {% if all_status %}
     <table width="90%">
         <tr>
@@ -46,5 +40,3 @@
       <p>There are no Labs in the inventory.</p>
     {% endif %}
 {% endblock %}
-    </body>
-</html>
