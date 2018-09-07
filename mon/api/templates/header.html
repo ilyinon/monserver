@@ -1,18 +1,22 @@
-<html>
-    <head>
-        <title>Env status overall</title>
+{% extends 'bootstrap.html' %}
+{% load bootstrap3 %}
+
         <meta http-equiv="refresh" content="10">
-    </head>
-    <body>
-<table>
-    <tr>
-        <td><a href="/">overall_status</a></td>
-        <td><a href="/versions">versions</a><br></td>
-        <td><a href="/servers">servers</a></td>
-        <td><a href="/services">services</a></td>
-    </tr>
-</table>
+{% block bootstrap3_content %}
+<div class="container">
+
+
+
+<p>
+    <a href="/">overall_status</a>
+    <a href="/versions">versions</a>
+    <a href="/servers">servers</a>
+    <a href="/services">services</a>
+
+</p>
+    {% autoescape off %} {% bootstrap_messages %}{% endautoescape %}
 {% block content %}
 {% endblock content %}
-    </body>
-</html>
+
+</div>
+ {% endblock %}
