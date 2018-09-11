@@ -58,6 +58,14 @@
     }
   },
   {
+    "model": "api.Lab",
+    "pk": 4,
+    "fields": {
+      "lab_name": "TAGRULAB01",
+      "created": "2001-10-10"
+    }
+  },
+  {
     "model": "api.DC",
     "pk": 99,
     "fields": {
@@ -102,6 +110,14 @@
     "pk": 5,
     "fields": {
       "dc_name": "SYDNEY",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.DC",
+    "pk": 6,
+    "fields": {
+      "dc_name": "NN",
       "created": "2001-10-10"
     }
   }

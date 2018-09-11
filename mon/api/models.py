@@ -52,6 +52,8 @@ class Server(models.Model):
             lab = Lab.objects.get(lab_name="TAGUSLAB03")
         elif re.search("^tag.+[a-zA-Z](01|03)[0-9].*\.", new_name):
             lab = Lab.objects.get(lab_name="TAGUSLAB04")
+        elif re.search("^qa.+[a-zA-Z](81)[0-9].*\.", new_name):
+            lab = Lab.objects.get(lab_name="TAGUSLAB04")
         else:
             lab = Lab.objects.get(pk=99)
 
