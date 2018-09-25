@@ -23,14 +23,19 @@ def get_item(dictionary, key):
 
 logger = logging.getLogger(__name__)
 
-class ServerViewSet(viewsets.ModelViewSet):
-    queryset = Server.objects.all()
-    serializer_class = ServerSerializer
+
+class ServersAll(View):
+    def get(self, request):
+        queryset = Server.objects.all()
+        template_name = 'servers.html'
+        return render(request, template_name, context={'all': queryset})
 
 
-class ServiceViewSet(viewsets.ModelViewSet):
-    queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
+class ServicesAll(View):
+    def get(self, request):
+        queryset = Service.objects.all()
+        template_name = 'services.html'
+        return render(request, template_name, context={'all': queryset})
 
 
 class StatusRudView(generics.RetrieveUpdateDestroyAPIView):
@@ -61,10 +66,9 @@ class Overview(View):
                     counter_server += 1
 #                   logger.error(server.server_name)
                     for status in q:
-#                       logger.error(status.server)
-                        if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
-#                           logger.error(server.server_name)
-                            counter_bad_server += 1
+                            if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
+    #                           logger.error(server.server_name)
+                                counter_bad_server += 1
 
             lab_list[lab.lab_name]["servers_all"] = counter_server
             lab_list[lab.lab_name]["servers_bad"] = counter_bad_server
@@ -73,7 +77,7 @@ class Overview(View):
             else:
                 lab_list[lab.lab_name]["status"] = True
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': lab_list})
+        return render(request, template_name, context={'all_status': lab_list, 'q': q}, )
 
 
 class DC_view(View):
@@ -92,15 +96,15 @@ class LAB_view(View):
         lab_servers = Server.objects.filter(lab=lab_name)
         lab_servers_all = {}
         for server in lab_servers:
-            lab_servers_all[server] = 0
-            services = Status.objects.all().order_by("server", "service", "-created").\
+            #lab_servers_all[server] = 0
+            services = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").\
                 distinct("server", "service").filter(server=server).values_list("service__service_name", "version")
-            lab_servers_all[server] = services
+            if services:
+                lab_servers_all[server] = services
 
         template_name = "lab.html"
         return render(request, template_name, context={'lab_name': lab_name,
-                                                       'lab_servers': lab_servers_all,
-                                                       'services_all': lab_servers_all})
+                                                       'lab_servers': lab_servers_all})
 
 
 class Server_view(View):

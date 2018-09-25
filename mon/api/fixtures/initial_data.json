@@ -37,7 +37,7 @@
     "model": "api.Lab",
     "pk": 2,
     "fields": {
-      "lab_name": "QAUSLAB02",
+      "lab_name": "QAUSLAB02-P1",
       "created": "2001-10-10"
     }
   },
@@ -45,13 +45,29 @@
     "model": "api.Lab",
     "pk": 3,
     "fields": {
-      "lab_name": "TAGUSLAB03",
+      "lab_name": "QAUSLAB02-P2",
       "created": "2001-10-10"
     }
   },
   {
     "model": "api.Lab",
     "pk": 4,
+    "fields": {
+      "lab_name": "TAGUSLAB03-P1",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 5,
+    "fields": {
+      "lab_name": "TAGUSLAB03-P2",
+      "created": "2001-10-10"
+    }
+  },
+  {
+    "model": "api.Lab",
+    "pk": 6,
     "fields": {
       "lab_name": "TAGUSLAB04",
       "created": "2001-10-10"
@@ -60,7 +76,7 @@
 
   {
     "model": "api.Lab",
-    "pk": 5,
+    "pk": 7,
     "fields": {
       "lab_name": "TAGRULAB01",
       "created": "2001-10-10"
@@ -122,11 +138,11 @@
       "created": "2001-10-10"
     }
   },
-   {
-    "model": "api.service",
+  {
+    "model": "api.Service",
     "pk": 99,
     "fields": {
-      "dc_name": "UNKNOWN",
+      "service_name": "UNKNOWN",
       "created": "2001-10-10"
     }
   }
