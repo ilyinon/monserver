@@ -14,7 +14,7 @@
             <td>{{ lab }}</td>
             {% for service in services %}
 
-            <td> {{ version|get_item:service.service_name }} </td>
+            <td> {% for version in version|get_item:service.service_name %} {{ version }} {%endfor%} </td>
             {% endfor %}
         </tr>
     {% endfor %}

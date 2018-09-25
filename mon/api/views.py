@@ -129,7 +129,7 @@ class Service_view(View):
 
 class Version_view(View):
     def get(self, request):
-        statuses = Status.objects.all().order_by("server", "service", "-created").distinct("server", "service")
+        statuses = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").distinct("server", "service")
         labs = Lab.objects.all().exclude(pk=99)
         data_list = {}
 
@@ -139,15 +139,18 @@ class Version_view(View):
             for server in servers:
                 if server.lab == lab:
                     for s in statuses:
-                        if server.server_name == s.server.server_name:
+                        if s.version != "UNKNOWN":
+                            if server.server_name == s.server.server_name:
 
-                            if s.service.service_name not in data_list[lab]:
-                                data_list[lab][s.service.service_name] = []
-                            if s.version not in data_list[lab][s.service.service_name]:
-                                data_list[lab][s.service.service_name].append(s.version)
+                                if s.service.service_name not in data_list[lab]:
+                                    data_list[lab][s.service.service_name] = []
+                                if s.version not in data_list[lab][s.service.service_name]:
+                                    data_list[lab][s.service.service_name].append(s.version)
+        services_list = []
+        for service_name in Service.objects.all().exclude(service_name="UNKNOWN"):
+            services_list.append(service_name)
 
-        services = Service.objects.all()
         template_name = "version.html"
         return render(request, template_name, context={'data': data_list,
-                                                       'services': services,
+                                                       'services': services_list,
                                                        'status': statuses})
