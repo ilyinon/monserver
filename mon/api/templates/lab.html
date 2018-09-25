@@ -14,7 +14,7 @@
         </tr>
         {% for server, services in lab_servers.items %}
         <tr>
-            <td width="20%" valign="top">
+            <td width="30%" valign="top">
                 <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
             </td>
             <td>
@@ -25,6 +25,9 @@
                 <tr>
                 <td>
                     <a href="/{{ server.server_name }}/{{ service.0 }}"> {{ service.0 }}</a>
+                </td>
+                <td>
+                    status
                 </td>
                 <td>
                     {{ service.1 }}

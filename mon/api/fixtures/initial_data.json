@@ -121,5 +121,13 @@
       "dc_name": "NN",
       "created": "2001-10-10"
     }
+  },
+   {
+    "model": "api.service",
+    "pk": 99,
+    "fields": {
+      "dc_name": "UNKNOWN",
+      "created": "2001-10-10"
+    }
   }
 ]
