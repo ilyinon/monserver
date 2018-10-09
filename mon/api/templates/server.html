@@ -1,10 +1,11 @@
 {% extends "header.html" %}
 {% load bootstrap3 %}
 
+{% block title %}{{ server_name.server_name  }}{% endblock %}
 {% block content %}
-    <h1>Server {{  server_name.server_name  }}</h1>
+
 {% if services %}
-<table width="80%" cellpadding="2">
+<table width="80%" cellpadding="2" class="table">
 
     <tr>
         <td width="40%" align="left">Service name</td>

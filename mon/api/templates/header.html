@@ -1,22 +1,25 @@
 {% extends 'bootstrap.html' %}
 {% load bootstrap3 %}
+{% bootstrap_css %}
 
-        <meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="10">
 {% block bootstrap3_content %}
-<div class="container">
+    <div class="container">
+        <h1>{% block title %}(no title){% endblock %}</h1>
 
+<table width="30%" border="0" >
+    <tr>
 
+      <td>  <h4><a href="{% url 'overall' %}">overall_status</a></h4></td>
+      <td>  <h4><a href="{% url 'versions' %}">versions</a></h4></td>
+      <td>  <h4><a href="{% url 'servers_list' %}">servers</a></h4></td>
+      <td>  <h4><a href="/services">services</a></h4></td>
+    </b>
+    </tr>
+</table>
+<br>
+    {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+    {% block content %}(no content){% endblock %}
 
-<p>
-    <a href="/">overall_status</a>
-    <a href="/versions">versions</a>
-    <a href="/servers">servers</a>
-    <a href="/services">services</a>
-
-</p>
-    {% autoescape off %} {% bootstrap_messages %}{% endautoescape %}
-{% block content %}
-{% endblock content %}
-
-</div>
+    </div>
  {% endblock %}

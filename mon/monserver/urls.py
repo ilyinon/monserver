@@ -18,7 +18,7 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
 #    url(r'^', include(router.urls)),
-    path('', Overview.as_view()),
+    path('', Overview.as_view(), name="overall"),
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('servers/', ServersAll.as_view(), name="servers_list"),
@@ -31,7 +31,7 @@ urlpatterns = [
     path("dc/<str:dc_name>/", DC_view.as_view()),
     path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
-    path("versions/", Version_view.as_view()),
+    path("versions/", Version_view.as_view(), name="versions"),
 
 ]
 

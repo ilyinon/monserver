@@ -1,10 +1,11 @@
 {% extends "header.html" %}
 {% load bootstrap3 %}
 
+{% block title %}ALL SERVERS{% endblock %}
 {% block content %}
-    <h1>ALL Servers</h1>
+
 {% if all %}
-<table width="80%" cellpadding="2">
+<table width="80%" cellpadding="2" class="table">
 
     <tr>
         <td width="40%" align="left">Server name</td>
@@ -15,9 +16,9 @@
 
     <tr>
         <td width="40%" align="left">
-            <a href="/{{ server_name.server_name }}/{{ service.0 }}"> {{ service.0 }}</a>
+            <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
         </td>
-        <td width="40%" align="left"> {{ service.1 }}</td>
+        <td width="40%" align="left"> {{ server.lab }}</td>
     </tr>
         {% endfor %}
 </table>

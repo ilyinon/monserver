@@ -124,7 +124,9 @@ class Service_view(View):
         server = Server.objects.filter(server_name=server_name)
         status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
         template_name = "service.html"
-        return render(request, template_name, context={"status_service": status_service})
+        return render(request, template_name, context={"status_service": status_service,
+                                                       "service_name": service_name,
+                                                       "server_name": server_name})
 
 
 class Version_view(View):
