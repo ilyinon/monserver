@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+{% load bootstrap3 %}
+
+{% block title %}{{ service_name }} overall{% endblock %}
+{% block content %}
+
+<table width="80%" cellpadding="2" class="table">
+
+    <tr>
+        <td>server</td>
+
+    </tr>
+{% for server in all_servers %}
+    <tr>
+        <td > {{ server }}</td>
+    </tr>
+{% endfor %}
+
+</table>
+{% endblock content %}

@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path, include
 from django.contrib import admin
 from rest_framework import routers
-from api.views import Overview, DC_view, Server_view, Service_view, LAB_view, Version_view, ServersAll, ServicesAll
+from api.views import Overview, DC_view, Server_view, Service_view, LAB_view, Version_view, ServersAll, ServicesAll, ServiceMoreDetail
 from api import apiviews
 from django.conf import settings
 
@@ -22,16 +22,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('servers/', ServersAll.as_view(), name="servers_list"),
-    path('servers/<int:pk>/', apiviews.ServerDetail.as_view(), name="servers_detail"),
-    path('services/', ServicesAll.as_view(), name="service_list"),
-    path('services/<int:pk>/', apiviews.ServiceDetail.as_view(), name="service_detail"),
+    path("servers/<str:server_name>/", Server_view.as_view()),
+    path('services/', ServicesAll.as_view(), name="services_list"),
+    path("service/<str:service_name>/", ServiceMoreDetail.as_view(), name="ServiceMoreDetail"),
     path("status/", apiviews.CreateStatus.as_view(), name="send_status"),
     path("status/<str:server>/<str:service>/", apiviews.GetServiceStatus.as_view(), name="get_status"),
-    path("servers/<str:server_name>/", Server_view.as_view()),
     path("dc/<str:dc_name>/", DC_view.as_view()),
     path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
     path("versions/", Version_view.as_view(), name="versions"),
+
 
 ]
 

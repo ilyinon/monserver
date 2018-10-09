@@ -156,3 +156,18 @@ class Version_view(View):
         return render(request, template_name, context={'data': data_list,
                                                        'services': services_list,
                                                        'status': statuses})
+
+
+class ServiceMoreDetail(View):
+    def get(self, request, service_name):
+        service = Service.objects.filter(service_name=service_name)[0]
+        q = Status.objects.filter(service=service).order_by("server", "service", "-created").distinct("server", "service").values_list("server__server_name", "service")
+        server_list = []
+        for server, service in q:
+            server_list.append(server)
+
+
+        template_name = "service_common.html"
+        return render(request, template_name, context={"all_servers": server_list,
+                                                       "service": service,
+                                                       })
