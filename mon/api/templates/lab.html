@@ -18,21 +18,10 @@
                 <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
             </td>
             <td>
-
-            <table width="100%">
-
-                {% for service in  services %}
-                <tr>
-                <td>
-                    <a href="/{{ server.server_name }}/{{ service.0 }}"> {{ service.0 }}</a>
-                </td>
-                <td>
-                    {{ service.1 }}
-                </td>
-                </tr>
-                {% endfor %}
-            </table>
-
+                <a href="/{{ server.server_name }}/{{ services.0.0 }}"> {{ services.0.0 }}</a>
+            </td>
+            <td>
+                {{ services.0.1 }}
             </td>
         </tr>
         {% endfor %}
