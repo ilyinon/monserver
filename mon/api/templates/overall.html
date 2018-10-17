@@ -17,21 +17,20 @@
             <td>
         <a href="lab/{{ a }}"> {{ a }}</a> <br>
             </td>
-            {% if s|get_item:"status" == True %}
+
             <td bgcolor="green">
                     OK
             </td>
-                {% else %}
+
             <td bgcolor="yellow">
                     NO DATA
             </td>
-            {% endif %}
+
             <td>
-                {{ s|get_item:"servers_all" }}
             </td>
 
             <td>
-                {{ s|get_item:"servers_bad" }}
+
             </td>
 
             </tr>

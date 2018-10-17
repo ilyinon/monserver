@@ -33,5 +33,17 @@ services:
     depends_on:
       - mon
 
+  redis:
+    image: redis:4
+    restart: always
+
+  celery:
+    build:
+      context: ./
+      dockerfile: celery.Dockerfile
+    restart: always
+    depends_on:
+      - redis
+
 volumes:
   django_static:

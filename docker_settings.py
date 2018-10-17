@@ -14,8 +14,17 @@ SECRET_KEY = 'dv=lz57s(pr%27*3j)m6ml67zs21g+j0ev#nre14jo*@ge(a49'
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
-
+CELERY_BROKER_URL = 'redis://redis:6379/1'
+CELERY_RESULT_BACKEND = 'django-db'
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -25,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'rest_framework',
     'bootstrap3',
     'api',

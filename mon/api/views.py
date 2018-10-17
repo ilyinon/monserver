@@ -50,34 +50,19 @@ class Overview(View):
 
     @register.filter
     def get(self, request):
+        servers = Server.objects.all()
         q = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").distinct("server", "service")
         labs = Lab.objects.all().exclude(pk=99)
-        servers = Server.objects.all()
-        lab_list = {}
+        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=3)
+        full_list = {}
+        status_list = {}
+        for qstatus in q:
+            full_list[qstatus.server.server_name] = [qstatus.service.service_name, qstatus.status, qstatus.created, qstatus.updated]
 
-        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=2)
 
-        for lab in labs:
-            lab_list[lab.lab_name] = {}
-            counter_server = 0
-            counter_bad_server = 0
-            for server in servers:
-                if server.lab == lab:
-                    counter_server += 1
-#                   logger.error(server.server_name)
-                    for status in q:
-                            if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
-    #                           logger.error(server.server_name)
-                                counter_bad_server += 1
 
-            lab_list[lab.lab_name]["servers_all"] = counter_server
-            lab_list[lab.lab_name]["servers_bad"] = counter_bad_server
-            if counter_bad_server:
-                lab_list[lab.lab_name]["status"] = False
-            else:
-                lab_list[lab.lab_name]["status"] = True
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': lab_list, 'q': q}, )
+        return render(request, template_name, context={'all_status': full_list, 'q': q}, )
 
 
 class DC_view(View):
