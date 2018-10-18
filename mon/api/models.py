@@ -90,14 +90,17 @@ class Status(models.Model):
 
 
 class Report(models.Model):
-    lab = models.ForeignKey(Lab, related_name='lab', on_delete=models.CASCADE)
-    server = models.ForeignKey(Server, related_name='server', on_delete=models.CASCADE)
-    service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, related_name='lab_report', on_delete=models.CASCADE)
+    dc = models.ForeignKey(DC, related_name='dc_report', on_delete=models.CASCADE)
+    server = models.ForeignKey(Server, related_name='server_report', on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, related_name='service_report', on_delete=models.CASCADE)
     version = models.CharField(max_length=100)
     created = models.DateTimeField()
     updated = models.DateTimeField()
     status = models.CharField(max_length=20, default="No data")
 
     def __str__(self):
-        template = '{} {} {} {} {}'.format(self.created, self.status, self.server, self.service, self.updated)
+        template = '{} {} {} {} {}'.format(self.server, self.service, self.status, self.dc, self.lab)
         return template
+
+

@@ -37,13 +37,22 @@ services:
     image: redis:4
     restart: always
 
-  celery:
+  celery-beat:
     build:
       context: ./
-      dockerfile: celery.Dockerfile
+      dockerfile: celery_beat.Dockerfile
     restart: always
     depends_on:
       - redis
+
+  celery-worker:
+    build:
+      context: ./
+      dockerfile: celery_worker.Dockerfile
+    restart: always
+    depends_on:
+      - redis
+
 
 volumes:
   django_static:

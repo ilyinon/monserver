@@ -1,19 +1,13 @@
-from rest_framework import viewsets, generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views.generic import ListView, View
-from django.http import HttpResponse
-from .models import Status, DC, Server, Lab
+from rest_framework import generics
+from django.views.generic import View
 from django.shortcuts import render
 
-from .models import Server, Service, Status
-from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
+from .models import Server, Service, Status, Report
+from .serializers import StatusSerializer
 
 import logging
 
 from django.template.defaulttags import register
-from datetime import datetime, timedelta
-import pytz
 
 
 @register.filter
@@ -50,19 +44,10 @@ class Overview(View):
 
     @register.filter
     def get(self, request):
-        servers = Server.objects.all()
-        q = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").distinct("server", "service")
-        labs = Lab.objects.all().exclude(pk=99)
-        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=3)
-        full_list = {}
-        status_list = {}
-        for qstatus in q:
-            full_list[qstatus.server.server_name] = [qstatus.service.service_name, qstatus.status, qstatus.created, qstatus.updated]
-
-
+        q = Report.objects.all()
 
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': full_list, 'q': q}, )
+        return render(request, template_name, context={'all_status': q}, )
 
 
 class DC_view(View):

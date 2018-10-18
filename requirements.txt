@@ -22,4 +22,5 @@ websocket-client==0.48.0
 django-bootstrap3==11.0.0
 celery==4.2.1
 django-celery-results==1.0.1
+django_celery_beat
 redis
