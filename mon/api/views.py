@@ -2,7 +2,7 @@ from rest_framework import generics
 from django.views.generic import View
 from django.shortcuts import render
 
-from .models import Server, Service, Status, Report
+from .models import Server, Service, Status, Report, Lab
 from .serializers import StatusSerializer
 
 import logging
@@ -45,9 +45,20 @@ class Overview(View):
     @register.filter
     def get(self, request):
         q = Report.objects.all()
+        labs = Lab.objects.all().exclude(pk=99)
+        report = {}
+        for lab in labs:
+            report[lab.lab_name] = {}
+            report[lab.lab_name]["servers"] = 0
+            report[lab.lab_name]["fail"] = 0
+            for server in q:
+                if server.lab == lab:
+                    report[lab.lab_name]["servers"] += 1
+                    if not server.status:
+                        report[lab.lab_name]["fail"] += 1
 
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': q}, )
+        return render(request, template_name, context={'all_status': report})
 
 
 class DC_view(View):

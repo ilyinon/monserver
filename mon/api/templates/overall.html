@@ -11,26 +11,27 @@
             <td>All_servers</td>
             <td>Fail_services</td>
         </tr>
+        {% for status in  all_status %}
 
-        {% for a, s in all_status.items %}
         <tr>
             <td>
-        <a href="lab/{{ a }}"> {{ a }}</a> <br>
+        <a href="lab/{{ status }}"> {{ status }}</a> <br>
             </td>
-
+            {% if all_status|get_item:status|get_item:"fail" == 0 %}
             <td bgcolor="green">
                     OK
             </td>
-
+            {% else %}
             <td bgcolor="yellow">
                     NO DATA
             </td>
-
+            {% endif %}
             <td>
+                {{ all_status|get_item:status|get_item:"servers" }}
             </td>
 
             <td>
-
+                {{ all_status|get_item:status|get_item:"fail" }}
             </td>
 
             </tr>
