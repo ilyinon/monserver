@@ -6,10 +6,11 @@
     {% if all_status %}
     <table width="90%" class="table">
         <tr>
-            <td>Lab_Name</td>
+            <td>Lab Name</td>
             <td>Status</td>
-            <td>All_servers</td>
-            <td>Fail_services</td>
+            <td>All servers</td>
+            <td>Servers w/ services</td>
+            <td>Fail servers</td>
         </tr>
         {% for status in  all_status %}
 
@@ -33,7 +34,9 @@
             <td>
                 {{ all_status|get_item:status|get_item:"servers" }}
             </td>
-
+            <td>
+                {{ all_status|get_item:status|get_item:"serverwservices" }}
+            </td>
             <td>
                 {{ all_status|get_item:status|get_item:"fail" }}
             </td>

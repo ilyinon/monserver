@@ -51,11 +51,14 @@ class Overview(View):
             report[lab.lab_name] = {}
             report[lab.lab_name]["servers"] = 0
             report[lab.lab_name]["fail"] = 0
+            report[lab.lab_name]["serverwservices"] = 0
             for server in q:
                 if server.lab == lab:
                     report[lab.lab_name]["servers"] += 1
                     if not server.status:
                         report[lab.lab_name]["fail"] += 1
+                    if server.service.service_name != "UNKNOWN":
+                        report[lab.lab_name]["serverwservices"] += 1
 
         template_name = 'overall.html'
         return render(request, template_name, context={'all_status': report})
@@ -81,7 +84,7 @@ class LAB_view(View):
         except:
             return redirect('/')
 
-        lab_servers = Report.objects.filter(lab=lab_name)
+        lab_servers = Report.objects.filter(lab=lab_name).exclude(service=99)
 
         template_name = "lab.html"
         return render(request, template_name, context={'lab_name': lab_name,
