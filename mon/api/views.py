@@ -1,6 +1,6 @@
 from rest_framework import generics
 from django.views.generic import View
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Server, Service, Status, Report, Lab
 from .serializers import StatusSerializer
@@ -64,7 +64,10 @@ class Overview(View):
 class DC_view(View):
 
     def get(self, request, dc_name):
-        dc_name = DC.objects.filter(dc_name=dc_name)[0]
+        try:
+            dc_name = DC.objects.filter(dc_name=dc_name)[0]
+        except:
+            return redirect('/')
         dc_servers = Server.objects.filter(dc=dc_name)
         template_name = "dc.html"
         return render(request, template_name, context={'dc_name': dc_name, 'dc_servers': dc_servers})
@@ -73,7 +76,11 @@ class DC_view(View):
 class LAB_view(View):
     @register.filter
     def get(self, request, lab_name):
-        lab_name = Lab.objects.filter(lab_name=lab_name)[0]
+        try:
+            lab_name = Lab.objects.filter(lab_name=lab_name)[0]
+        except:
+            return redirect('/')
+
         lab_servers = Server.objects.filter(lab=lab_name)
         lab_servers_all = {}
         for server in lab_servers:
@@ -91,7 +98,10 @@ class LAB_view(View):
 class Server_view(View):
 
     def get(self, request, server_name):
-        server_name = Server.objects.filter(server_name=server_name)[0]
+        try:
+            server_name = Server.objects.filter(server_name=server_name)[0]
+        except:
+            return redirect('/')
         server_services = Status.objects.all().order_by("server", "service", "-updated")\
             .distinct("server", "service").\
             filter(server=server_name).values_list("service__service_name", "version")
@@ -101,7 +111,10 @@ class Server_view(View):
 
 class Service_view(View):
     def get(self, request, server_name, service_name):
-        service = Service.objects.filter(service_name=service_name)
+        try:
+            service = Service.objects.filter(service_name=service_name)
+        except:
+            return redirect('/')
         server = Server.objects.filter(server_name=server_name)
         status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
         template_name = "service.html"

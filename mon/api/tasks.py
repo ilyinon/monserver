@@ -42,7 +42,7 @@ def every_10_seconds():
                 report.service = Service.objects.get(service_name="UNKNOWN")
                 report.created = "2001-10-10"
                 report.updated = "2001-10-10"
-                report.status = 'no_data'
+                report.status = False
             report.save()
             print(report)
 
