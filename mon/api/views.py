@@ -1,19 +1,13 @@
-from rest_framework import viewsets, generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views.generic import ListView, View
-from django.http import HttpResponse
-from .models import Status, DC, Server, Lab
+from rest_framework import generics
+from django.views.generic import View
 from django.shortcuts import render
 
-from .models import Server, Service, Status
-from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
+from .models import Server, Service, Status, Report, Lab
+from .serializers import StatusSerializer
 
 import logging
 
 from django.template.defaulttags import register
-from datetime import datetime, timedelta
-import pytz
 
 
 @register.filter
@@ -50,34 +44,21 @@ class Overview(View):
 
     @register.filter
     def get(self, request):
-        q = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").distinct("server", "service")
+        q = Report.objects.all()
         labs = Lab.objects.all().exclude(pk=99)
-        servers = Server.objects.all()
-        lab_list = {}
-
-        time_threshold = pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=2)
-
+        report = {}
         for lab in labs:
-            lab_list[lab.lab_name] = {}
-            counter_server = 0
-            counter_bad_server = 0
-            for server in servers:
+            report[lab.lab_name] = {}
+            report[lab.lab_name]["servers"] = 0
+            report[lab.lab_name]["fail"] = 0
+            for server in q:
                 if server.lab == lab:
-                    counter_server += 1
-#                   logger.error(server.server_name)
-                    for status in q:
-                            if server == status.server and status.status is False or server == status.server and status.updated < time_threshold:
-    #                           logger.error(server.server_name)
-                                counter_bad_server += 1
+                    report[lab.lab_name]["servers"] += 1
+                    if not server.status:
+                        report[lab.lab_name]["fail"] += 1
 
-            lab_list[lab.lab_name]["servers_all"] = counter_server
-            lab_list[lab.lab_name]["servers_bad"] = counter_bad_server
-            if counter_bad_server:
-                lab_list[lab.lab_name]["status"] = False
-            else:
-                lab_list[lab.lab_name]["status"] = True
         template_name = 'overall.html'
-        return render(request, template_name, context={'all_status': lab_list, 'q': q}, )
+        return render(request, template_name, context={'all_status': report})
 
 
 class DC_view(View):
