@@ -2,7 +2,7 @@ from rest_framework import generics
 from django.views.generic import View
 from django.shortcuts import render, redirect
 
-from .models import Server, Service, Status, Report, Lab
+from .models import Server, Service, Status, Report, Lab, DC
 from .serializers import StatusSerializer
 
 import logging
@@ -116,7 +116,10 @@ class Service_view(View):
         except:
             return redirect('/')
         server = Server.objects.filter(server_name=server_name)
-        status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
+        try:
+            status_service = Status.objects.filter(service=service[0],server=server[0]).values_list("status", "version", "updated")
+        except:
+            return redirect('/')
         template_name = "service.html"
         return render(request, template_name, context={"status_service": status_service,
                                                        "service_name": service_name,
@@ -154,7 +157,10 @@ class Version_view(View):
 
 class ServiceMoreDetail(View):
     def get(self, request, service_name):
-        service = Service.objects.filter(service_name=service_name)[0]
+        try:
+            service = Service.objects.filter(service_name=service_name)[0]
+        except:
+            return redirect('/')
         q = Status.objects.filter(service=service).order_by("server", "service", "-created").distinct("server", "service").values_list("server__server_name", "service")
         server_list = []
         for server, service in q:
