@@ -17,13 +17,17 @@
             <td>
         <a href="lab/{{ status }}"> {{ status }}</a> <br>
             </td>
-            {% if all_status|get_item:status|get_item:"fail" == 0 %}
+            {% if all_status|get_item:status|get_item:"fail" == 0 and all_status|get_item:status|get_item:"servers" > 0 %}
             <td bgcolor="green">
                     OK
             </td>
-            {% else %}
+            {% elif all_status|get_item:status|get_item:"fail" == 0 and all_status|get_item:status|get_item:"servers" == 0 %}
             <td bgcolor="yellow">
                     NO DATA
+            </td>
+            {% else %}
+            <td bgcolor="red">
+                FAIL
             </td>
             {% endif %}
             <td>
