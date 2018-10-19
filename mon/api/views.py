@@ -81,18 +81,11 @@ class LAB_view(View):
         except:
             return redirect('/')
 
-        lab_servers = Server.objects.filter(lab=lab_name)
-        lab_servers_all = {}
-        for server in lab_servers:
-            #lab_servers_all[server] = 0
-            services = Status.objects.all().exclude(service=99).order_by("server", "service", "-created").\
-                distinct("server", "service").filter(server=server).values_list("service__service_name", "version")
-            if services:
-                lab_servers_all[server] = services
+        lab_servers = Report.objects.filter(lab=lab_name)
 
         template_name = "lab.html"
         return render(request, template_name, context={'lab_name': lab_name,
-                                                       'lab_servers': lab_servers_all})
+                                                       'lab_servers': lab_servers})
 
 
 class Server_view(View):

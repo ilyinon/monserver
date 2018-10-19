@@ -10,19 +10,33 @@
             <td>Server_name</td>
             <td>Service</td>
             <td>Version</td>
+            <td>Status</td>
 
         </tr>
-        {% for server, services in lab_servers.items %}
+        {% for server in lab_servers %}
         <tr>
             <td width="30%" valign="top">
-                <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
+                <a href="/servers/{{ server.server.server_name }}"> {{ server.server.server_name }}</a>
             </td>
             <td>
-                <a href="/{{ server.server_name }}/{{ services.0.0 }}"> {{ services.0.0 }}</a>
+                <a href="/{{ server.server.server_name }}/{{ server.service}}"> {{ server.service }}</a>
             </td>
             <td>
-                {{ services.0.1 }}
+                {{ server.version }}
             </td>
+            {% if server.status == "True"  %}
+            <td bgcolor="green">
+                    OK
+            </td>
+            {% elif server.status == "no_data" %}
+            <td bgcolor="yellow">
+                    NO_DATA
+            </td>
+            {% else %}
+            <td bgcolor="red">
+                FAIL
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
 
