@@ -20,7 +20,7 @@
             <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
         </td>
         <td width="20%" align="left"> {{ server.lab }}</td>
-        <td width="20%" align="left">{{ server.dc }}</td>
+        <td width="20%" align="left">{{ server.dc.dc_name }}</td>
     </tr>
         {% endfor %}
 </table>
