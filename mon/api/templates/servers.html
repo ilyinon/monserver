@@ -8,17 +8,19 @@
 <table width="80%" cellpadding="2" class="table">
 
     <tr>
-        <td width="40%" align="left">Server name</td>
-        <td width="40%" align="left">Lab name</td>
+        <td width="20%" align="left">Server name</td>
+        <td width="20%" align="left">Lab name</td>
+        <td width="20%" align="left">DC name</td>
     </tr>
 
         {% for server in all %}
 
     <tr>
-        <td width="40%" align="left">
+        <td width="20%" align="left">
             <a href="/servers/{{ server.server_name }}"> {{ server.server_name }}</a>
         </td>
-        <td width="40%" align="left"> {{ server.lab }}</td>
+        <td width="20%" align="left"> {{ server.lab }}</td>
+        <td width="20%" align="left">{{ server.dc }}</td>
     </tr>
         {% endfor %}
 </table>
