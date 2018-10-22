@@ -24,8 +24,7 @@ def every_10_seconds():
                 report = Report.objects.get(server=server)
             else:
                 report = Report()
-                server_one = Server.objects.get(server_name=server.server_name)
-                report.server = server_one
+                report.server = Server.objects.get(server_name=server.server_name)
 
             report.dc = server.dc
             report.lab = server.lab
@@ -33,10 +32,10 @@ def every_10_seconds():
                 report.service = Service.objects.get(service_name=status_list[server.server_name]["service"])
                 report.created = status_list[server.server_name]["created"]
                 report.updated = status_list[server.server_name]["updated"]
-                if report.updated < time_threshold:
+                if report.updated < time_threshold or not report.status:
                     report.status = False
                 else:
-                    report.status = status_list[server.server_name]["status"]
+                    report.status = True
                 report.version = status_list[server.server_name]["version"]
             else:
                 report.service = Service.objects.get(service_name="UNKNOWN")
@@ -44,8 +43,3 @@ def every_10_seconds():
                 report.updated = "2001-10-10"
                 report.status = False
             report.save()
-            print(report)
-
-
-
-

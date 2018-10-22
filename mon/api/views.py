@@ -84,7 +84,7 @@ class LAB_view(View):
         except:
             return redirect('/')
 
-        lab_servers = Report.objects.filter(lab=lab_name).exclude(service=99)
+        lab_servers = Report.objects.filter(lab=lab_name).exclude(service=99).order_by('service__service_name')
 
         template_name = "lab.html"
         return render(request, template_name, context={'lab_name': lab_name,
