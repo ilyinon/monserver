@@ -55,7 +55,7 @@ class Overview(View):
             for server in q:
                 if server.lab == lab:
                     report[lab.lab_name]["servers"] += 1
-                    if not server.status:
+                    if not server.status or server.status == "no_data":
                         report[lab.lab_name]["fail"] += 1
                     if server.service.service_name != "UNKNOWN":
                         report[lab.lab_name]["serverwservices"] += 1
