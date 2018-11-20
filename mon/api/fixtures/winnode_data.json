@@ -62,5 +62,13 @@
       "winenv_name": "apco",
       "created": "2001-10-10"
     }
+  },
+  {
+    "model": "api.winENV",
+    "pk": 99,
+    "fields": {
+      "winenv_name": "unknown",
+      "created": "2001-10-10"
+    }
   }
 ]

@@ -1,0 +1,26 @@
+{% extends "header.html" %}
+{% load bootstrap3 %}
+
+{% block title %}WINDOWS NODES{% endblock %}
+{% block content %}
+    {% if all_status %}
+    <table width="90%" class="table">
+        <tr>
+            <td>winnode</td>
+            <td>environment</td>
+            <td>vcenter</td>
+            <td>updated</td>
+            <td>java</td>
+            <td>python</td>
+            <td>chrome</td>
+            <td>firefox</td>
+            <td>selenium</td>
+            <td>gecko</td>
+        </tr>
+
+
+    </table>
+    {% else %}
+      <p>There are no windows nodes in the inventory.</p>
+    {% endif %}
+{% endblock %}

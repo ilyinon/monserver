@@ -122,12 +122,12 @@ class winENV(models.Model):
         return template
 
 
-class winnode(models.Model):
+class Winnode(models.Model):
     node_name = models.CharField(max_length=50, blank=False, unique=True, default="")
     vcenter = models.ForeignKey(vCenter, related_name='vCenter',  on_delete=models.CASCADE)
     winenv = models.ForeignKey(winENV, related_name='winenv', on_delete=models.CASCADE)
     java_version = models.CharField(max_length=100)
-    chrome_verson = models.CharField(max_length=100)
+    chrome_version = models.CharField(max_length=100)
     firefox_version = models.CharField(max_length=100)
     chromedriver_version = models.CharField(max_length=100)
     gecko_version = models.CharField(max_length=100)

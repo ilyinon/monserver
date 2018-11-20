@@ -7,13 +7,14 @@
     <div class="container">
         <h1>{% block title %}(no title){% endblock %}</h1>
 
-<table width="30%" border="0" >
+<table width="50%" border="0" >
     <tr>
 
       <td>  <h4><a href="{% url 'overall' %}">overall_status</a></h4></td>
       <td>  <h4><a href="{% url 'versions' %}">versions</a></h4></td>
       <td>  <h4><a href="{% url 'servers_list' %}">servers</a></h4></td>
       <td>  <h4><a href="{% url 'services_list' %}">services</a></h4></td>
+      <td>  <h4><a href="{% url 'winnodes' %}">winnodes</a></h4></td>
     </b>
     </tr>
 </table>

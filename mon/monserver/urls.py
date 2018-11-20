@@ -2,7 +2,8 @@ from django.conf.urls import url, include
 from django.urls import path, include
 from django.contrib import admin
 from rest_framework import routers
-from api.views import Overview, DC_view, Server_view, Service_view, LAB_view, Version_view, ServersAll, ServicesAll, ServiceMoreDetail
+from api.views import Overview, DC_view, Server_view, Service_view, LAB_view,\
+    Version_view, ServersAll, ServicesAll, ServiceMoreDetail, Winnodes
 from api import apiviews
 from django.conf import settings
 
@@ -31,6 +32,8 @@ urlpatterns = [
     path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
     path("versions/", Version_view.as_view(), name="versions"),
+    path("winnodes/", Winnodes.as_view(), name="winnodes"),
+    path("winstatus/", apiviews.CreateWinnodeStatus.as_view(), name="winsend_status"),
 
 
 ]

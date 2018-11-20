@@ -2,7 +2,7 @@ from rest_framework import generics
 from django.views.generic import View
 from django.shortcuts import render, redirect
 
-from .models import Server, Service, Status, Report, Lab, DC
+from .models import Server, Service, Status, Report, Lab, DC, Winnode
 from .serializers import StatusSerializer
 
 import logging
@@ -167,3 +167,13 @@ class ServiceMoreDetail(View):
         return render(request, template_name, context={"all_servers": server_list,
                                                        "service": service,
                                                        })
+
+
+class Winnodes(View):
+
+    @register.filter
+    def get(self, request):
+        q = Winnode.objects.all()
+
+        template_name = 'winnode.html'
+        return render(request, template_name, context={'winnodes': q})
