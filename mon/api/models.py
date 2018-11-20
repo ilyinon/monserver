@@ -104,3 +104,39 @@ class Report(models.Model):
         return template
 
 
+class vCenter(models.Model):
+    vcenter_name = models.CharField(max_length=50, blank=False, unique=True, default="")
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        template = '{} {}'.format(self.vcenter_name, self.pk)
+        return template
+
+
+class winENV(models.Model):
+    winenv_name = models.CharField(max_length=50, blank=False, unique=True, default="")
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        template = '{} {}'.format(self.winenv_name, self.pk)
+        return template
+
+
+class winnode(models.Model):
+    node_name = models.CharField(max_length=50, blank=False, unique=True, default="")
+    vcenter = models.ForeignKey(vCenter, related_name='vCenter',  on_delete=models.CASCADE)
+    winenv = models.ForeignKey(winENV, related_name='winenv', on_delete=models.CASCADE)
+    java_version = models.CharField(max_length=100)
+    chrome_verson = models.CharField(max_length=100)
+    firefox_version = models.CharField(max_length=100)
+    chromedriver_version = models.CharField(max_length=100)
+    gecko_version = models.CharField(max_length=100)
+    selenium_version = models.CharField(max_length=100)
+    python_version = models.CharField(max_length=100)
+    status = models.BooleanField(default=False)
+    created = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        template = '{} {} {} {} {}'.format(self.created, self.status, self.server, self.service, self.updated)
+        return template
