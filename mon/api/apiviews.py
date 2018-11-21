@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 
-from .models import Server, Service, Status, Winnode, winENV
+from .models import Server, Service, Status, Winnode, winENV, vCenter
 from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 import logging
 from django.utils import timezone
@@ -95,23 +95,39 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
     serializer_class = StatusSerializer
 
     def post(self, request):
-        node = Winnode()
-        node.node_name = request.data.get("winnode")
 
-        versions = ["java_version", "chrome_version", "firefox_version", "chromedrvier_version",
-                    "gecko_version", "selenium_version"]
+
         try:
-            node.winenv = winENV.objects.get(winenv=request.data.get("winenv"))
+            node = Winnode.objects.get(node_name=request.data.get("node_name"))
+        except:
+            node = Winnode()
+            node.node_name = request.data.get("node_name")
+
+        print(request.data)
+
+        try:
+            node.winenv = winENV.objects.get(winenv_name=request.data.get("winenv"))
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            node.vcenter = vCenter.objects.get(vcenter_name=request.data.get("vcenter"))
+            print(node.vcenter)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        versions = ["java_version", "chrome_version", "firefox_version", "chromedrvier_version",
+                    "gecko_version", "selenium_version"]
+
         for version in versions:
-            if version:
-                node.version = version
+            if request.data.get(version):
+                node.version = request.data.get(version)
             else:
                 node.version = "no_data"
 
         node.updated = timezone.now()
+        print(node.firefox_version)
+        node.save()
 
         try:
             node.save()

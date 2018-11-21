@@ -162,7 +162,6 @@ class ServiceMoreDetail(View):
         for server, service in q:
             server_list.append(server)
 
-
         template_name = "service_common.html"
         return render(request, template_name, context={"all_servers": server_list,
                                                        "service": service,
@@ -173,7 +172,20 @@ class Winnodes(View):
 
     @register.filter
     def get(self, request):
-        q = Winnode.objects.all()
+        q = {}
+
+        for node in Winnode.objects.all():
+            q[node.node_name] = {}
+            q[node.node_name]["vcenter"] = node.vcenter.vcenter_name
+            q[node.node_name]["winenv"] = node.winenv.winenv_name
+            q[node.node_name]["java_version"] = node.java_version
+            q[node.node_name]["chrome_version"] = node.chrome_version
+            q[node.node_name]["chromedriver_version"] = node.chromedriver_version
+            q[node.node_name]["firefox_version"] = node.firefox_version
+            q[node.node_name]["gecko_version"] = node.gecko_version
+            q[node.node_name]["selenium_version"] = node.selenium_version
+            q[node.node_name]["python_version"] = node.python_version
+            q[node.node_name]["updated"] = node.updated
 
         template_name = 'winnode.html'
         return render(request, template_name, context={'winnodes': q})

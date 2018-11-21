@@ -133,10 +133,8 @@ class Winnode(models.Model):
     gecko_version = models.CharField(max_length=100)
     selenium_version = models.CharField(max_length=100)
     python_version = models.CharField(max_length=100)
-    status = models.BooleanField(default=False)
-    created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        template = '{} {} {} {} {}'.format(self.created, self.status, self.server, self.service, self.updated)
+        template = '{} {} {}'.format(self.node_name, self.winenv, self.java_version)
         return template

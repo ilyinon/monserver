@@ -3,7 +3,7 @@
 
 {% block title %}WINDOWS NODES{% endblock %}
 {% block content %}
-    {% if all_status %}
+    {% if winnodes %}
     <table width="90%" class="table">
         <tr>
             <td>winnode</td>
@@ -13,13 +13,53 @@
             <td>java</td>
             <td>python</td>
             <td>chrome</td>
+            <td>chromedriver</td>
             <td>firefox</td>
-            <td>selenium</td>
             <td>gecko</td>
+            <td>selenium</td>
+
         </tr>
+        {% for node in  winnodes %}
 
-
+        <tr>
+            <td>
+                {{ node }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"winenv" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"vcenter" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"updated" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"java_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"python_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"chrome_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"chromedriver_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"firefox_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"gecko_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"selenium_version" }}
+            </td>
+        </tr>
+                {% endfor %}
     </table>
+
+
     {% else %}
       <p>There are no windows nodes in the inventory.</p>
     {% endif %}
