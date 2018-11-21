@@ -6,6 +6,9 @@ from .models import Server, Service, Status, Report, Lab, DC, Winnode
 from .serializers import StatusSerializer
 
 import logging
+import pytz
+
+from datetime import datetime, timedelta
 
 from django.template.defaulttags import register
 
@@ -174,7 +177,7 @@ class Winnodes(View):
     def get(self, request):
         q = {}
 
-        for node in Winnode.objects.all():
+        for node in Winnode.objects.all().order_by("node_name"):
             q[node.node_name] = {}
             q[node.node_name]["vcenter"] = node.vcenter.vcenter_name
             q[node.node_name]["winenv"] = node.winenv.winenv_name
@@ -185,7 +188,15 @@ class Winnodes(View):
             q[node.node_name]["gecko_version"] = node.gecko_version
             q[node.node_name]["selenium_version"] = node.selenium_version
             q[node.node_name]["python_version"] = node.python_version
-            q[node.node_name]["updated"] = node.updated
+            q[node.node_name]["updated"] = {}
+            q[node.node_name]["updated"]["date"] = node.updated
+            if node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=10):
+                q[node.node_name]["updated"]["status"] = 1
+            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=10) and \
+                    node.updated >= node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=3):
+                q[node.node_name]["updated"]["status"] = 2
+            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(hours=3):
+                q[node.node_name]["updated"]["status"] = 3
 
         template_name = 'winnode.html'
         return render(request, template_name, context={'winnodes': q})

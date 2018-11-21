@@ -31,8 +31,14 @@
             <td>
                 {{ winnodes|get_item:node|get_item:"vcenter" }}
             </td>
-            <td>
-                {{ winnodes|get_item:node|get_item:"updated" }}
+            {% if winnodes|get_item:node|get_item:"updated"|get_item:"status" == 1 %}
+            <td bgcolor="green">
+                {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 2 %}
+            <td bgcolor="yellow">
+                {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 3 %}
+            <td bgcolor="red">
+            {% endif %}
+                {{ winnodes|get_item:node|get_item:"updated"|get_item:"date" }}
             </td>
             <td>
                 {{ winnodes|get_item:node|get_item:"java_version" }}
