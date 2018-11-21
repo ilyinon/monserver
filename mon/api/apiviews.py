@@ -116,17 +116,24 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        versions = ["java_version", "chrome_version", "firefox_version", "chromedrvier_version",
-                    "gecko_version", "selenium_version"]
+        if request.data.get("java_version"):
+            node.java_version = request.data.get("java_version")
+        if request.data.get("chrome_version"):
+            node.chrome_version = request.data.get("chrome_version")
+        if request.data.get("firefox_version"):
+            node.firefox_version = request.data.get("firefox_version")
+        if request.data.get("chromedriver_version"):
+            node.chromedriver_version = request.data.get("chromedriver_version")
+        if request.data.get("gecko_version"):
+            node.gecko_version = request.data.get("gecko_version")
+        if request.data.get("selenium_version"):
+            node.selenium_version = request.data.get("selenium_version")
+        if request.data.get("python_version"):
+            node.python_version = request.data.get("python_version")
 
-        for version in versions:
-            if request.data.get(version):
-                node.version = request.data.get(version)
-            else:
-                node.version = "no_data"
 
         node.updated = timezone.now()
-        print(node.firefox_version)
+        print(node.java_version)
         node.save()
 
         try:

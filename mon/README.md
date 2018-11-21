@@ -17,5 +17,26 @@ curl -X POST  -H "Content-Type: application/json" --data '{"node_name":"qawinnod
 
 versions = dict("java_version"="1.1.1")
 curl -X POST  -H "Content-Type: application/json" \
- --data '{"node_name":"qawinnode001.tf","vcenter":"vcenter001.infra.five9lab.com","winenv":"NN","java_version":"111"}'\
+ --data '{"node_name":"qawinnode001.tf","vcenter":"vcenter001.infra.five9lab.com","winenv":"NN",\
+ "java_version":"111",\
+ "chrome_version":"111",\
+ "chromedriver_version":"111",\
+ "firefox_version":"111",\
+ "gecko_version":"111",\
+ "selenium_version":"111"}'\
   http://127.0.0.1:8000/winstatus/
+
+
+
+curl -X POST  -H "Content-Type: application/json"  --data '{"node_name":"qawinnode003.tf"
+,"vcenter":"vcenter001.infra.five9lab.com","winenv":"NN","java_version":"112"}'  http://127.0.0.1:8000/winstatus/
+
+  curl -X POST  -H "Content-Type: application/json" \
+  --data '{"node_name":"qawinnode003.tf","vcenter":"vcenter001.infra.five9lab.com","winenv":"NN",
+ "java_version":"211",
+ "chrome_version":"112",
+ "chromedriver_version":"211",
+ "firefox_version":"211",
+ "gecko_version":"211",
+ "python_version":"aaa",
+  "selenium_version":"111"}'  http://127.0.0.1:8000/winstatus/
