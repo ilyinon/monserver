@@ -32,11 +32,11 @@
                 {{ winnodes|get_item:node|get_item:"vcenter" }}
             </td>
             {% if winnodes|get_item:node|get_item:"updated"|get_item:"status" == 1 %}
-            <td bgcolor="green">
+            <td bgcolor="greenyellow">
                 {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 2 %}
-            <td bgcolor="yellow">
+            <td bgcolor="khaki">
                 {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 3 %}
-            <td bgcolor="red">
+            <td bgcolor="lightpink">
             {% endif %}
                 {{ winnodes|get_item:node|get_item:"updated"|get_item:"date" }}
             </td>
