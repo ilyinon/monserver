@@ -190,12 +190,12 @@ class Winnodes(View):
             q[node.node_name]["python_version"] = node.python_version
             q[node.node_name]["updated"] = {}
             q[node.node_name]["updated"]["date"] = node.updated
-            if node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=10):
+            if node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=6):
                 q[node.node_name]["updated"]["status"] = 1
-            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(minutes=10) and \
-                    node.updated >= node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=3):
+            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(hours=6) and \
+                    node.updated >= node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=24):
                 q[node.node_name]["updated"]["status"] = 2
-            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(hours=3):
+            elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(hours=24):
                 q[node.node_name]["updated"]["status"] = 3
 
         template_name = 'winnode.html'
