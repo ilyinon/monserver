@@ -31,6 +31,14 @@
       "created": "2001-10-10"
     }
   },
+    {
+    "model": "api.vCenter",
+    "pk": 99,
+    "fields": {
+      "vcenter_name": "no_data",
+      "created": "2001-10-10"
+    }
+  },
   {
     "model": "api.winENV",
     "pk": 1,

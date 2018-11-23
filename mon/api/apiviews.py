@@ -96,25 +96,23 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
 
     def post(self, request):
 
-
         try:
             node = Winnode.objects.get(node_name=request.data.get("node_name"))
         except:
             node = Winnode()
+            try:
+                node.vcenter = vCenter.objects.get(vcenter_name="no_data")
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
             node.node_name = request.data.get("node_name")
 
-        print(request.data)
 
         try:
             node.winenv = winENV.objects.get(winenv_name=request.data.get("winenv"))
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            node.vcenter = vCenter.objects.get(vcenter_name=request.data.get("vcenter"))
-            print(node.vcenter)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
         if request.data.get("java_version"):
             node.java_version = request.data.get("java_version")
