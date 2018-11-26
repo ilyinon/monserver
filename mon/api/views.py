@@ -188,6 +188,7 @@ class Winnodes(View):
             q[node.node_name]["gecko_version"] = node.gecko_version
             q[node.node_name]["selenium_version"] = node.selenium_version
             q[node.node_name]["python_version"] = node.python_version
+            q[node.node_name]["windows_activated"] = node.windows_activated
             q[node.node_name]["updated"] = {}
             q[node.node_name]["updated"]["date"] = node.updated
             if node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=6):
