@@ -123,17 +123,17 @@ class winENV(models.Model):
 
 
 class Winnode(models.Model):
-    node_name = models.CharField(max_length=50, blank=False, unique=True, default="")
-    vcenter = models.ForeignKey(vCenter, related_name='vCenter',  on_delete=models.CASCADE)
-    winenv = models.ForeignKey(winENV, related_name='winenv', on_delete=models.CASCADE)
-    java_version = models.CharField(max_length=100)
-    chrome_version = models.CharField(max_length=100)
-    firefox_version = models.CharField(max_length=100)
-    chromedriver_version = models.CharField(max_length=100)
-    gecko_version = models.CharField(max_length=100)
-    selenium_version = models.CharField(max_length=100)
-    python_version = models.CharField(max_length=100)
-    updated = models.DateTimeField(default=timezone.now)
+    node_name = models.CharField(max_length=50, blank=False, unique=True, default="", db_index=True)
+    vcenter = models.ForeignKey(vCenter, related_name='vCenter',  on_delete=models.CASCADE, db_index=True)
+    winenv = models.ForeignKey(winENV, related_name='winenv', on_delete=models.CASCADE, db_index=True)
+    java_version = models.CharField(max_length=100, db_index=True)
+    chrome_version = models.CharField(max_length=100, db_index=True)
+    firefox_version = models.CharField(max_length=100, db_index=True)
+    chromedriver_version = models.CharField(max_length=100, db_index=True)
+    gecko_version = models.CharField(max_length=100, db_index=True)
+    selenium_version = models.CharField(max_length=100, db_index=True)
+    python_version = models.CharField(max_length=100, db_index=True)
+    updated = models.DateTimeField(default=timezone.now, db_index=True)
 
     def __str__(self):
         template = '{} {} {}'.format(self.node_name, self.winenv, self.java_version)
