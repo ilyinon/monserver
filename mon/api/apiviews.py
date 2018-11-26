@@ -128,6 +128,8 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
             node.selenium_version = request.data.get("selenium_version")
         if request.data.get("python_version"):
             node.python_version = request.data.get("python_version")
+        if request.data.get("windows_activated"):
+            node.python_version = request.data.get("windows_activated")
 
 
         node.updated = timezone.now()

@@ -17,6 +17,7 @@
             <td>firefox</td>
             <td>gecko</td>
             <td>selenium</td>
+            <td>win_license</td>
 
         </tr>
         {% for node in  winnodes %}
@@ -60,6 +61,9 @@
             </td>
             <td>
                 {{ winnodes|get_item:node|get_item:"selenium_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"windows_activated" }}
             </td>
         </tr>
                 {% endfor %}

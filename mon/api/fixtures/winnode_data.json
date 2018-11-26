@@ -43,7 +43,7 @@
     "model": "api.winENV",
     "pk": 1,
     "fields": {
-      "winenv_name": "TAG03",
+      "winenv_name": "TAGUSLAB03",
       "created": "2001-10-10"
     }
   },
@@ -51,7 +51,7 @@
     "model": "api.winENV",
     "pk": 2,
     "fields": {
-      "winenv_name": "TAG04",
+      "winenv_name": "TAGUSLAB04",
       "created": "2001-10-10"
     }
   },
@@ -59,7 +59,7 @@
     "model": "api.winENV",
     "pk": 3,
     "fields": {
-      "winenv_name": "NN",
+      "winenv_name": "TAGRULAB01",
       "created": "2001-10-10"
     }
   },
@@ -67,7 +67,7 @@
     "model": "api.winENV",
     "pk": 4,
     "fields": {
-      "winenv_name": "apco",
+      "winenv_name": "APCO",
       "created": "2001-10-10"
     }
   },

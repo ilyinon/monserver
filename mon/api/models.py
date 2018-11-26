@@ -134,6 +134,7 @@ class Winnode(models.Model):
     selenium_version = models.CharField(max_length=100, db_index=True)
     python_version = models.CharField(max_length=100, db_index=True)
     updated = models.DateTimeField(default=timezone.now, db_index=True)
+    windows_activated = models.CharField(max_length=100, blank=True, db_index=True)
 
     def __str__(self):
         template = '{} {} {}'.format(self.node_name, self.winenv, self.java_version)
