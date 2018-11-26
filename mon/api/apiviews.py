@@ -129,7 +129,7 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
         if request.data.get("python_version"):
             node.python_version = request.data.get("python_version")
         if request.data.get("windows_activated"):
-            node.python_version = request.data.get("windows_activated")
+            node.windows_activated = request.data.get("windows_activated")
 
 
         node.updated = timezone.now()
