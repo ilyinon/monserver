@@ -121,6 +121,27 @@ class winENV(models.Model):
         template = '{} {}'.format(self.winenv_name, self.pk)
         return template
 
+class Datastore(models.Model):
+    datastore_name = models.CharField(max_length=100, blank=True, unique=True, default="0")
+
+    def __str__(self):
+        template = '{}'.format(self.datastore_name, self.pk)
+        return template
+
+
+class WindowsVersion(models.Model):
+    windows_version = models.CharField(max_length=100, blank=True, unique=True, default="0")
+
+    def __str__(self):
+        template = '{}'.format(self.windows_version, self.pk)
+        return template
+
+class ESXiHost(models.Model):
+    esxi_name = models.CharField(max_length=100, blank=True, unique=True, default="0")
+
+    def __str__(self):
+        template = '{}'.format(self.esxi_name, self.pk)
+        return template
 
 class Winnode(models.Model):
     node_name = models.CharField(max_length=50, blank=False, unique=True, default="", db_index=True)
@@ -135,6 +156,12 @@ class Winnode(models.Model):
     python_version = models.CharField(max_length=100, db_index=True)
     updated = models.DateTimeField(default=timezone.now, db_index=True)
     windows_activated = models.CharField(max_length=100, blank=True, db_index=True)
+    mac_address = models.CharField(max_length=100, blank=True, db_index=True)
+    ip_address = models.GenericIPAddressField(default="1.1.1.1")
+    domain_name = models.CharField(max_length=100, blank=True, db_index=True)
+    windows_version = models.ForeignKey(WindowsVersion, related_name='winver', default=1, on_delete=models.CASCADE, db_index=True)
+    datastore_name = models.ForeignKey(Datastore, related_name='datastore', default=1, on_delete=models.CASCADE, db_index=True)
+    esxi_host = models.ForeignKey(ESXiHost, related_name='esxi', default=1, on_delete=models.CASCADE, db_index=True)
 
     def __str__(self):
         template = '{} {} {}'.format(self.node_name, self.winenv, self.java_version)

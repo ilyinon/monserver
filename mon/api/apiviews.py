@@ -95,7 +95,7 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
     serializer_class = StatusSerializer
 
     def post(self, request):
-
+        print(request.data)
         try:
             node = Winnode.objects.get(node_name=request.data.get("node_name"))
         except:
@@ -103,6 +103,7 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
             try:
                 node.vcenter = vCenter.objects.get(vcenter_name="no_data")
             except:
+                print("step 2 failed")
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             node.node_name = request.data.get("node_name")
 
@@ -110,9 +111,8 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
         try:
             node.winenv = winENV.objects.get(winenv_name=request.data.get("winenv"))
         except:
+            print("step 3 failed")
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
 
         if request.data.get("java_version"):
             node.java_version = request.data.get("java_version")
@@ -130,7 +130,12 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
             node.python_version = request.data.get("python_version")
         if request.data.get("windows_activated"):
             node.windows_activated = request.data.get("windows_activated")
-
+        if request.data.get("mac_address"):
+            node.mac_address = request.data.get("mac_address")
+        if request.data.get("ip_address"):
+            node.ip_address = request.data.get("ip_address")
+        if request.data.get("domain_name"):
+            node.domain_name = request.data.get("domain_name")
 
         node.updated = timezone.now()
         print(node.java_version)

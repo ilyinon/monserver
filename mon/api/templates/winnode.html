@@ -4,20 +4,41 @@
 {% block title %}WINDOWS NODES{% endblock %}
 {% block content %}
     {% if winnodes %}
-    <table width="90%" class="table">
+
+    <table width="90%" class="table" border="1">
         <tr>
             <td>winnode</td>
             <td>environment</td>
-            <td>vcenter</td>
+            <td>vcenter <br>
+                            <ul>
+            {% for status in report|get_item:"vcenter" %}
+                <li>{{ status }} :
+                    {{ report|get_item:"vcenter"|get_item:status }}</li>
+            {% endfor %}
+                </ul>
+        </td>
             <td>updated</td>
-            <td>java</td>
+            <td>java<br>
+                <ul>
+            {% for status in report|get_item:"java_version" %}
+                <li>{{ status }} :
+                    {{ report|get_item:"java_version"|get_item:status }}</li>
+            {% endfor %}
+                </ul></td>
             <td>python</td>
             <td>chrome</td>
             <td>chromedriver</td>
             <td>firefox</td>
             <td>gecko</td>
             <td>selenium</td>
-            <td>win_license</td>
+            <td>win_license<br>
+                <ul>
+            {% for status in report|get_item:"windows_activated" %}
+                <li>{{ status }} :
+                    {{ report|get_item:"windows_activated"|get_item:status }}</li>
+            {% endfor %}
+                </ul>
+            </td>
 
         </tr>
         {% for node in  winnodes %}
@@ -62,8 +83,14 @@
             <td>
                 {{ winnodes|get_item:node|get_item:"selenium_version" }}
             </td>
-            <td>
-                {{ winnodes|get_item:node|get_item:"windows_activated" }}
+            {% if winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 1 %}
+            <td bgcolor="greenyellow">
+                {% elif winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 2 %}
+            <td bgcolor="khaki">
+                {% elif winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 3 %}
+            <td bgcolor="lightpink">
+            {% endif %}
+                {{ winnodes|get_item:node|get_item:"windows_activated"|get_item:"message" }}
             </td>
         </tr>
                 {% endfor %}

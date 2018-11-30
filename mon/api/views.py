@@ -11,6 +11,7 @@ import pytz
 from datetime import datetime, timedelta
 
 from django.template.defaulttags import register
+from django.db.models.expressions import RawSQL
 
 
 @register.filter
@@ -176,19 +177,39 @@ class Winnodes(View):
     @register.filter
     def get(self, request):
         q = {}
+        report = {}
+        for value in Winnode._meta.get_fields():
+            report[str(value).split(".")[2]] = {}
 
-        for node in Winnode.objects.all().order_by("node_name"):
+
+
+        for node in Winnode.objects.annotate(myinteger=RawSQL('CAST(node_name as Text)', params=[])).order_by('myinteger'):
             q[node.node_name] = {}
             q[node.node_name]["vcenter"] = node.vcenter.vcenter_name
+            if node.vcenter.vcenter_name in report["vcenter"]:
+                report["vcenter"][node.vcenter.vcenter_name] += 1
+            else:
+                report["vcenter"][node.vcenter.vcenter_name] = 1
+
             q[node.node_name]["winenv"] = node.winenv.winenv_name
             q[node.node_name]["java_version"] = node.java_version
+            if node.java_version in report["java_version"]:
+                report["java_version"][node.java_version] += 1
+            else:
+                report["java_version"][node.java_version] = 1
+
             q[node.node_name]["chrome_version"] = node.chrome_version
             q[node.node_name]["chromedriver_version"] = node.chromedriver_version
             q[node.node_name]["firefox_version"] = node.firefox_version
             q[node.node_name]["gecko_version"] = node.gecko_version
             q[node.node_name]["selenium_version"] = node.selenium_version
             q[node.node_name]["python_version"] = node.python_version
-            q[node.node_name]["windows_activated"] = node.windows_activated
+            q[node.node_name]["windows_activated"] = {}
+            q[node.node_name]["windows_activated"]["message"] = node.windows_activated
+            if node.windows_activated in report["windows_activated"]:
+                report["windows_activated"][node.windows_activated] += 1
+            else:
+                report["windows_activated"][node.windows_activated] = 1
             q[node.node_name]["updated"] = {}
             q[node.node_name]["updated"]["date"] = node.updated
             if node.updated >= pytz.utc.localize(datetime.utcnow()) - timedelta(hours=6):
@@ -199,5 +220,13 @@ class Winnodes(View):
             elif node.updated < pytz.utc.localize(datetime.utcnow()) - timedelta(hours=24):
                 q[node.node_name]["updated"]["status"] = 3
 
+            if q[node.node_name]["windows_activated"]["message"] == "Licensed":
+                q[node.node_name]["windows_activated"]["status"] = 1
+            elif q[node.node_name]["windows_activated"]["message"] == "Initial grace period":
+                q[node.node_name]["windows_activated"]["status"] = 2
+            elif q[node.node_name]["windows_activated"]["message"] == "Notification":
+                q[node.node_name]["windows_activated"]["status"] = 3
+
+
         template_name = 'winnode.html'
-        return render(request, template_name, context={'winnodes': q})
+        return render(request, template_name, context={'winnodes': q, 'report': report})
