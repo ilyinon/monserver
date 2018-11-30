@@ -5,39 +5,31 @@
 {% block content %}
     {% if winnodes %}
 
-    <table width="90%" class="table" border="1">
+    <table class="table" border="1" style="margin: 0px;">
         <tr>
-            <td>winnode</td>
-            <td>environment</td>
-            <td>vcenter <br>
-                            <ul>
-            {% for status in report|get_item:"vcenter" %}
-                <li>{{ status }} :
-                    {{ report|get_item:"vcenter"|get_item:status }}</li>
-            {% endfor %}
-                </ul>
+            <td><h4>winnode</h4></td>
+            <td><h4>environment</h4></td>
+            <td><h4>vcenter </h4><br>
+
+<div class="text"><pre>{% for status in report|get_item:"vcenter" %}
+{{ status }}:  {{ report|get_item:"vcenter"|get_item:status }}</pre></div>
+{% endfor %}
+
         </td>
-            <td>updated</td>
-            <td>java<br>
-                <ul>
-            {% for status in report|get_item:"java_version" %}
-                <li>{{ status }} :
-                    {{ report|get_item:"java_version"|get_item:status }}</li>
-            {% endfor %}
-                </ul></td>
-            <td>python</td>
-            <td>chrome</td>
-            <td>chromedriver</td>
-            <td>firefox</td>
-            <td>gecko</td>
-            <td>selenium</td>
-            <td>win_license<br>
-                <ul>
-            {% for status in report|get_item:"windows_activated" %}
-                <li>{{ status }} :
-                    {{ report|get_item:"windows_activated"|get_item:status }}</li>
-            {% endfor %}
-                </ul>
+            <td><h4>updated</h4></td>
+            <td><h4>java</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"java_version" %}
+{{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
+                </td>
+            <td><h4>python</h4></td>
+            <td><h4>chrome</h4></td>
+            <td><h4>chromedriver</h4></td>
+            <td><h4>firefox</h4></td>
+            <td><h4>gecko</h4></td>
+            <td><h4>selenium</h4></td>
+            <td><h4>win_license</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"windows_activated" %}
+{{ status }}: {{ report|get_item:"windows_activated"|get_item:status }}{% endfor %}</pre></div>
             </td>
 
         </tr>
