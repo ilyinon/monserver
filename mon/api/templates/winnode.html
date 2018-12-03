@@ -7,31 +7,48 @@
 
     <table class="table" border="1" style="margin: 0px;">
         <tr>
-            <td><h4>winnode</h4></td>
-            <td><h4>environment</h4></td>
+            <td><h4>winnode</h4><br>
+<div class="text"><pre>nodes: {{ nodes_count }} </pre></div></td>
+            <td><h4>environment</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"winenv" %}
+{{ status }} :{{ report|get_item:"winenv"|get_item:status }}{% endfor %} </pre></div></td>
             <td><h4>vcenter </h4><br>
-
 <div class="text"><pre>{% for status in report|get_item:"vcenter" %}
 {{ status }}:  {{ report|get_item:"vcenter"|get_item:status }}</pre></div>
 {% endfor %}
-
         </td>
             <td><h4>updated</h4></td>
             <td><h4>java</h4><br>
 <div class="text"><pre>{% for status in report|get_item:"java_version" %}
 {{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
                 </td>
-            <td><h4>python</h4></td>
-            <td><h4>chrome</h4></td>
-            <td><h4>chromedriver</h4></td>
-            <td><h4>firefox</h4></td>
-            <td><h4>gecko</h4></td>
-            <td><h4>selenium</h4></td>
+            <td><h4>python</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"python_version" %}
+{{ status }} :{{ report|get_item:"python_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>chrome</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"java_version" %}
+{{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
+            </td>
+            <td><h4>chromedriver</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"chromedriver_version" %}
+{{ status }} :{{ report|get_item:"chromedriver_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>firefox</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"firefox_version" %}
+{{ status }} :{{ report|get_item:"firefox_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>gecko</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"gecko_version" %}
+{{ status }} :{{ report|get_item:"gecko_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>selenium</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"selenium_version" %}
+{{ status }} :{{ report|get_item:"selenium_version"|get_item:status }}{% endfor %} </pre></div></td>
             <td><h4>win_license</h4><br>
 <div class="text"><pre>{% for status in report|get_item:"windows_activated" %}
 {{ status }}: {{ report|get_item:"windows_activated"|get_item:status }}{% endfor %}</pre></div>
             </td>
-
+            <td><h4>win_version</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"windows_version" %}
+{{ status }}: {{ report|get_item:"windows_version"|get_item:status }}{% endfor %}</pre></div>
+            </td>
         </tr>
         {% for node in  winnodes %}
 
@@ -83,6 +100,9 @@
             <td bgcolor="lightpink">
             {% endif %}
                 {{ winnodes|get_item:node|get_item:"windows_activated"|get_item:"message" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"windows_version" }}
             </td>
         </tr>
                 {% endfor %}

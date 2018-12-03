@@ -192,6 +192,17 @@ class Winnodes(View):
                 report["vcenter"][node.vcenter.vcenter_name] = 1
 
             q[node.node_name]["winenv"] = node.winenv.winenv_name
+            if node.winenv.winenv_name in report["winenv"]:
+                report["winenv"][node.winenv.winenv_name] += 1
+            else:
+                report["winenv"][node.winenv.winenv_name] = 1
+
+            q[node.node_name]["windows_version"] = node.windows_version.windows_version
+            if node.windows_version.windows_version in report["windows_version"]:
+                report["windows_version"][node.windows_version.windows_version] += 1
+            else:
+                report["windows_version"][node.windows_version.windows_version] = 1
+
             q[node.node_name]["java_version"] = node.java_version
             if node.java_version in report["java_version"]:
                 report["java_version"][node.java_version] += 1
@@ -199,11 +210,35 @@ class Winnodes(View):
                 report["java_version"][node.java_version] = 1
 
             q[node.node_name]["chrome_version"] = node.chrome_version
+            if node.chrome_version in report["chrome_version"]:
+                report["chrome_version"][node.chrome_version] += 1
+            else:
+                report["chrome_version"][node.chrome_version] = 1
             q[node.node_name]["chromedriver_version"] = node.chromedriver_version
+            if node.chromedriver_version in report["chromedriver_version"]:
+                report["chromedriver_version"][node.chromedriver_version] += 1
+            else:
+                report["chromedriver_version"][node.chromedriver_version] = 1
             q[node.node_name]["firefox_version"] = node.firefox_version
+            if node.firefox_version in report["firefox_version"]:
+                report["firefox_version"][node.firefox_version] += 1
+            else:
+                report["firefox_version"][node.firefox_version] = 1
             q[node.node_name]["gecko_version"] = node.gecko_version
+            if node.gecko_version in report["gecko_version"]:
+                report["gecko_version"][node.gecko_version] += 1
+            else:
+                report["gecko_version"][node.gecko_version] = 1
             q[node.node_name]["selenium_version"] = node.selenium_version
+            if node.selenium_version in report["selenium_version"]:
+                report["selenium_version"][node.selenium_version] += 1
+            else:
+                report["selenium_version"][node.selenium_version] = 1
             q[node.node_name]["python_version"] = node.python_version
+            if node.python_version in report["python_version"]:
+                report["python_version"][node.python_version] += 1
+            else:
+                report["python_version"][node.python_version] = 1
             q[node.node_name]["windows_activated"] = {}
             q[node.node_name]["windows_activated"]["message"] = node.windows_activated
             if node.windows_activated in report["windows_activated"]:
@@ -227,6 +262,9 @@ class Winnodes(View):
             elif q[node.node_name]["windows_activated"]["message"] == "Notification":
                 q[node.node_name]["windows_activated"]["status"] = 3
 
-
+        nodes_count = len(Winnode.objects.all())
         template_name = 'winnode.html'
-        return render(request, template_name, context={'winnodes': q, 'report': report})
+        return render(request, template_name, context={'winnodes': q,
+                                                       'report': report,
+                                                       'nodes_count': nodes_count,
+                      })
