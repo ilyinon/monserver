@@ -136,6 +136,8 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
             node.ip_address = request.data.get("ip_address")
         if request.data.get("domain_name"):
             node.domain_name = request.data.get("domain_name")
+        if request.data.get("windows_version"):
+            node.windows_version = request.data.get("windows_version")
 
         node.updated = timezone.now()
         print(node.java_version)
