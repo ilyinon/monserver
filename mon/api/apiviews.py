@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 
-from .models import Server, Service, Status, Winnode, winENV, vCenter
+from .models import Server, Service, Status, Winnode, winENV, vCenter, WindowsVersion
 from .serializers import ServerSerializer, ServiceSerializer, StatusSerializer
 import logging
 from django.utils import timezone
@@ -107,7 +107,6 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             node.node_name = request.data.get("node_name")
 
-
         try:
             node.winenv = winENV.objects.get(winenv_name=request.data.get("winenv"))
         except:
@@ -136,8 +135,18 @@ class CreateWinnodeStatus(generics.ListCreateAPIView):
             node.ip_address = request.data.get("ip_address")
         if request.data.get("domain_name"):
             node.domain_name = request.data.get("domain_name")
+
         if request.data.get("windows_version"):
-            node.windows_version = request.data.get("windows_version")
+            try:
+                node.windows_version = WindowsVersion.objects.get(windows_version=request.data.get("windows_version"))
+            except:
+                wv = WindowsVersion()
+                wv.windows_version = request.data.get("windows_version")
+                try:
+                    wv.save()
+                except:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+                node.windows_version = WindowsVersion.objects.get(windows_version=request.data.get("windows_version"))
 
         node.updated = timezone.now()
         print(node.java_version)
