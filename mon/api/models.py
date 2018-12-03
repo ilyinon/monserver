@@ -163,6 +163,8 @@ class Winnode(models.Model):
     datastore_name = models.ForeignKey(Datastore, related_name='datastore', default=1, on_delete=models.CASCADE, db_index=True)
     esxi_host = models.ForeignKey(ESXiHost, related_name='esxi', default=1, on_delete=models.CASCADE, db_index=True)
 
+
+
     def __str__(self):
         template = '{} {} {}'.format(self.node_name, self.winenv, self.java_version)
         return template
