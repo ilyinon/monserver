@@ -181,9 +181,8 @@ class Winnodes(View):
         for value in Winnode._meta.get_fields():
             report[str(value).split(".")[2]] = {}
 
-
-
-        for node in Winnode.objects.annotate(myinteger=RawSQL('CAST(node_name as Text)', params=[])).order_by('myinteger'):
+        for node in Winnode.objects.annotate(myinteger=RawSQL('CAST(node_name as Text)', params=[])).\
+                order_by('myinteger'):
             q[node.node_name] = {}
             q[node.node_name]["vcenter"] = node.vcenter.vcenter_name
             if node.vcenter.vcenter_name in report["vcenter"]:
@@ -263,8 +262,23 @@ class Winnodes(View):
                 q[node.node_name]["windows_activated"]["status"] = 3
 
         nodes_count = len(Winnode.objects.all())
-        template_name = 'winnode.html'
+        template_name = 'winnodes.html'
         return render(request, template_name, context={'winnodes': q,
                                                        'report': report,
                                                        'nodes_count': nodes_count,
-                      })
+                                                       })
+
+
+class NodeDetail(View):
+
+    @register.filter
+    def get(self, request, node_name):
+        print(node_name)
+        try:
+            winnode = Winnode.objects.filter(node_name=node_name)[0]
+        except:
+            return redirect('/winnodes/')
+        template_name = "winnode.html"
+        return render(request, template_name, context={'winnode': winnode
+                                                       })
+

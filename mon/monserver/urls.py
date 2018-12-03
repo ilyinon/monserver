@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.contrib import admin
 from rest_framework import routers
 from api.views import Overview, DC_view, Server_view, Service_view, LAB_view,\
-    Version_view, ServersAll, ServicesAll, ServiceMoreDetail, Winnodes
+    Version_view, ServersAll, ServicesAll, ServiceMoreDetail, Winnodes, NodeDetail
 from api import apiviews
 from django.conf import settings
 
@@ -19,6 +19,7 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
 #    url(r'^', include(router.urls)),
+    path('winnodes/<str:node_name>/', NodeDetail.as_view(), name='winnode_detail'),
     path('', Overview.as_view(), name="overall"),
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -32,7 +33,7 @@ urlpatterns = [
     path("<str:server_name>/<str:service_name>/", Service_view.as_view()),
     path("lab/<str:lab_name>", LAB_view.as_view()),
     path("versions/", Version_view.as_view(), name="versions"),
-    path("winnodes/", Winnodes.as_view(), name="winnodes"),
+    path('winnodes/', Winnodes.as_view(), name="winnodes"),
     path("winstatus/", apiviews.CreateWinnodeStatus.as_view(), name="winsend_status"),
 
 

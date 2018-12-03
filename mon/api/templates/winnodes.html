@@ -1,0 +1,115 @@
+{% extends "header.html" %}
+{% load bootstrap3 %}
+
+{% block title %}WINDOWS NODES{% endblock %}
+{% block content %}
+    {% if winnodes %}
+
+    <table class="table" border="1" style="margin: 0px;">
+        <tr>
+            <td><h4>winnode</h4><br>
+<div class="text"><pre>nodes: {{ nodes_count }} </pre></div></td>
+            <td><h4>environment</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"winenv" %}
+{{ status }} :{{ report|get_item:"winenv"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>vcenter </h4><br>
+<div class="text"><pre>{% for status in report|get_item:"vcenter" %}
+{{ status }}:  {{ report|get_item:"vcenter"|get_item:status }}</pre></div>
+{% endfor %}
+        </td>
+            <td><h4>updated</h4></td>
+            <td><h4>java</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"java_version" %}
+{{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
+                </td>
+            <td><h4>python</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"python_version" %}
+{{ status }} :{{ report|get_item:"python_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>chrome</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"java_version" %}
+{{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
+            </td>
+            <td><h4>chromedriver</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"chromedriver_version" %}
+{{ status }} :{{ report|get_item:"chromedriver_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>firefox</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"firefox_version" %}
+{{ status }} :{{ report|get_item:"firefox_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>gecko</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"gecko_version" %}
+{{ status }} :{{ report|get_item:"gecko_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>selenium</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"selenium_version" %}
+{{ status }} :{{ report|get_item:"selenium_version"|get_item:status }}{% endfor %} </pre></div></td>
+            <td><h4>win_license</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"windows_activated" %}
+{{ status }}: {{ report|get_item:"windows_activated"|get_item:status }}{% endfor %}</pre></div>
+            </td>
+            <td><h4>win_version</h4><br>
+<div class="text"><pre>{% for status in report|get_item:"windows_version" %}
+{{ status }}: {{ report|get_item:"windows_version"|get_item:status }}{% endfor %}</pre></div>
+            </td>
+        </tr>
+        {% for node in  winnodes %}
+
+        <tr>
+            <td>
+                <a href="/winnodes/{{ node }}/"> {{ node }}</a>
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"winenv" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"vcenter" }}
+            </td>
+            {% if winnodes|get_item:node|get_item:"updated"|get_item:"status" == 1 %}
+            <td bgcolor="greenyellow">
+                {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 2 %}
+            <td bgcolor="khaki">
+                {% elif winnodes|get_item:node|get_item:"updated"|get_item:"status" == 3 %}
+            <td bgcolor="lightpink">
+            {% endif %}
+                {{ winnodes|get_item:node|get_item:"updated"|get_item:"date" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"java_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"python_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"chrome_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"chromedriver_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"firefox_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"gecko_version" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"selenium_version" }}
+            </td>
+            {% if winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 1 %}
+            <td bgcolor="greenyellow">
+                {% elif winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 2 %}
+            <td bgcolor="khaki">
+                {% elif winnodes|get_item:node|get_item:"windows_activated"|get_item:"status" == 3 %}
+            <td bgcolor="lightpink">
+            {% endif %}
+                {{ winnodes|get_item:node|get_item:"windows_activated"|get_item:"message" }}
+            </td>
+            <td>
+                {{ winnodes|get_item:node|get_item:"windows_version" }}
+            </td>
+        </tr>
+                {% endfor %}
+    </table>
+
+
+    {% else %}
+      <p>There are no windows nodes in the inventory.</p>
+    {% endif %}
+{% endblock %}
