@@ -26,8 +26,8 @@
 <div class="text"><pre>{% for status in report|get_item:"python_version" %}
 {{ status }} :{{ report|get_item:"python_version"|get_item:status }}{% endfor %} </pre></div></td>
             <td><h4>chrome</h4><br>
-<div class="text"><pre>{% for status in report|get_item:"java_version" %}
-{{ status }} :{{ report|get_item:"java_version"|get_item:status }}{% endfor %} </pre></div>
+<div class="text"><pre>{% for status in report|get_item:"chrome_version" %}
+{{ status }} :{{ report|get_item:"chrome_version"|get_item:status }}{% endfor %} </pre></div>
             </td>
             <td><h4>chromedriver</h4><br>
 <div class="text"><pre>{% for status in report|get_item:"chromedriver_version" %}
